@@ -326,7 +326,48 @@ public class Weather extends EnvObjectLogic {
             conditions.setSelected(selectedCondition);
             setChanged(true);
         }
-        // set the correct representation
+        setIcon();
+    }
+
+    private void setIcon() {
+        //getPojo().setCurrentRepresentation(1);
+        if (conditions.getSelected().equals("day clear sky")) {
+            getPojo().setCurrentRepresentation(1);
+        } else if (conditions.getSelected().equals("day few clouds")) {
+            getPojo().setCurrentRepresentation(2);
+        } else if (conditions.getSelected().equals("day scattered clouds")) {
+            getPojo().setCurrentRepresentation(3);
+        } else if (conditions.getSelected().equals("day broken clouds")) {
+            getPojo().setCurrentRepresentation(4);
+        } else if (conditions.getSelected().equals("day shower rain")) {
+            getPojo().setCurrentRepresentation(5);
+        } else if (conditions.getSelected().equals("day rain")) {
+            getPojo().setCurrentRepresentation(6);
+        } else if (conditions.getSelected().equals("day thunderstorm")) {
+            getPojo().setCurrentRepresentation(7);
+        } else if (conditions.getSelected().equals("day snow")) {
+            getPojo().setCurrentRepresentation(8);
+        } else if (conditions.getSelected().equals("day mist")) {
+            getPojo().setCurrentRepresentation(9);
+        } else if (conditions.getSelected().equals("night clear sky")) {
+            getPojo().setCurrentRepresentation(10);
+        } else if (conditions.getSelected().equals("nigh few clouds")) {
+            getPojo().setCurrentRepresentation(11);
+        } else if (conditions.getSelected().equals("night scattered clouds")) {
+            getPojo().setCurrentRepresentation(12);
+        } else if (conditions.getSelected().equals("night broken clouds")) {
+            getPojo().setCurrentRepresentation(13);
+        } else if (conditions.getSelected().equals("night shower rain")) {
+            getPojo().setCurrentRepresentation(14);
+        } else if (conditions.getSelected().equals("night rain")) {
+            getPojo().setCurrentRepresentation(15);
+        } else if (conditions.getSelected().equals("night thunderstorm")) {
+            getPojo().setCurrentRepresentation(16);
+        } else if (conditions.getSelected().equals("night snow")) {
+            getPojo().setCurrentRepresentation(17);
+        } else if (conditions.getSelected().equals("night mist")) {
+            getPojo().setCurrentRepresentation(18);
+        }
     }
 
     /**
