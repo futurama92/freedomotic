@@ -29,6 +29,7 @@ import com.freedomotic.model.object.Behavior;
 import com.freedomotic.model.object.ListBehavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.Random;
 
@@ -44,6 +45,7 @@ public class ProvaQuadro extends EnvObjectLogic {
     private int brightnessStoredValue = 0;
     private static final String BEHAVIOR_CONDITIONS = "conditions";
     private static final String BEHAVIOR_BRIGHTNESS = "brightness";
+    public static  String BEHAVIOR_NATIONS = "no_nation";
 
     @Override
     public void init() {
@@ -111,6 +113,7 @@ public class ProvaQuadro extends EnvObjectLogic {
                 //Executed succesfully, update the value
                 conditions.setSelected(selectedCondition);
                 setChanged(true);
+                
             }
         } else {
             // Just a change in the virtual thing status
@@ -123,14 +126,27 @@ public class ProvaQuadro extends EnvObjectLogic {
     }
     
 
-      
+    public String switchNation(String check){
+        
+        if (check.equals("china"))
+            return "china";
+        if (check.equals("japan"))
+            return "japan";
+        
+        return "default";
+    }
+    
     public void setNation(){
-        int icon_number = 0;
+        int icon_number;
         
         if (conditions.getSelected().equals("china")){
-            icon_number = random(1);
+           icon_number = random(1);
+            getPojo().setCurrentRepresentation(icon_number);
+        } else if (conditions.getSelected().equals("japan")){
+           icon_number = random(2);
             getPojo().setCurrentRepresentation(icon_number);
         }
+       
 
         else 
             getPojo().setCurrentRepresentation(0);
@@ -184,16 +200,21 @@ public class ProvaQuadro extends EnvObjectLogic {
      */
     @Override
     protected void createCommands() {
-
         
-        Command changeNext = new Command();
-        changeNext.setName("Set " + getPojo().getName() + " next Image(china)");
-        changeNext.setDescription("Change the paint image " + getPojo().getName() + " to next");
-        changeNext.setReceiver("app.events.sensors.behavior.request.objects");
-        changeNext.setProperty("object", getPojo().getName());
-        changeNext.setProperty("behavior", "conditions" );
-        changeNext.setProperty("value","china");
-        commandRepository.create(changeNext); 
+        ArrayList prova;
+        prova = conditions.getValuesList();
+        Command changeNext[] = new Command[prova.size()];
+        for(int i = 0; i < prova.size(); i++){
+            BEHAVIOR_NATIONS = (String) prova.get(i);
+            
+            changeNext[i].setName("Set " + getPojo().getName() + " next Image " + BEHAVIOR_NATIONS);
+            changeNext[i].setDescription("Change the paint image " + getPojo().getName() + " to next");
+            changeNext[i].setReceiver("app.events.sensors.behavior.request.objects");
+            changeNext[i].setProperty("object", getPojo().getName());
+            changeNext[i].setProperty("behavior", "conditions" );        
+            changeNext[i].setProperty("value", BEHAVIOR_NATIONS );
+            commandRepository.create(changeNext[i]);
+        }
         
     }
 
