@@ -29,9 +29,10 @@ import com.freedomotic.model.object.Behavior;
 import com.freedomotic.model.object.ListBehavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
-import java.util.ArrayList;
+import static com.freedomotic.things.impl.ProvaQuadro.BEHAVIOR_NATIONS;
 import java.util.logging.Logger;
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  *
@@ -45,7 +46,7 @@ public class ProvaQuadro extends EnvObjectLogic {
     private int brightnessStoredValue = 0;
     private static final String BEHAVIOR_CONDITIONS = "conditions";
     private static final String BEHAVIOR_BRIGHTNESS = "brightness";
-    public static  String BEHAVIOR_NATIONS = "no_nation";
+    public static  String[] BEHAVIOR_NATIONS = {"china", "japan"};
 
     @Override
     public void init() {
@@ -201,21 +202,29 @@ public class ProvaQuadro extends EnvObjectLogic {
     @Override
     protected void createCommands() {
         
-        ArrayList prova;
-        prova = conditions.getValuesList();
-        Command changeNext[] = new Command[prova.size()];
-        for(int i = 0; i < prova.size(); i++){
-            BEHAVIOR_NATIONS = (String) prova.get(i);
-            
-            changeNext[i].setName("Set " + getPojo().getName() + " next Image " + BEHAVIOR_NATIONS);
+        Command changeNext[] = new Command[BEHAVIOR_NATIONS.length];
+        for(int i = 0; i < BEHAVIOR_NATIONS.length; i++)   
+            changeNext[i] = new Command();
+        
+        for(int i = 0; i < BEHAVIOR_NATIONS.length; i++){
+            changeNext[i].setName("Set " + getPojo().getName() + " next Image " + BEHAVIOR_NATIONS[i]);
             changeNext[i].setDescription("Change the paint image " + getPojo().getName() + " to next");
             changeNext[i].setReceiver("app.events.sensors.behavior.request.objects");
             changeNext[i].setProperty("object", getPojo().getName());
-            changeNext[i].setProperty("behavior", "conditions" );        
-            changeNext[i].setProperty("value", BEHAVIOR_NATIONS );
+            changeNext[i].setProperty("behavior", "conditions" ); 
+            changeNext[i].setProperty("value",BEHAVIOR_NATIONS[i]);
             commandRepository.create(changeNext[i]);
         }
-        
+        /*
+            Command changeNext = new Command();
+            changeNext.setName("Set " + getPojo().getName() + " next Image");
+            changeNext.setDescription("Change the paint image " + getPojo().getName() + " to next");
+            changeNext.setReceiver("app.events.sensors.behavior.request.objects");
+            changeNext.setProperty("object", getPojo().getName());
+            changeNext.setProperty("behavior", "conditions" ); 
+            changeNext.setProperty("value",BEHAVIOR_NATIONS[0]);
+            commandRepository.create(changeNext);
+*/
     }
 
     @Override

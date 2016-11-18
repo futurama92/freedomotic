@@ -16,6 +16,7 @@
       <list>
         <string>china</string>
         <string>japan</string>
+        <string>russia</string>
       </list>
     </com.freedomotic.model.object.ListBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
