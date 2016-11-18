@@ -1,9 +1,9 @@
 <object>
-  <name>E-paint</name>
+  <name>ProvaQuadro</name>
   <description>An electronic paint</description>
   <actAs>virtual</actAs>
-  <type>EnvObject.Epaint</type>
-  <hierarchy>com.freedomotic.things.impl.Epaint</hierarchy>
+  <type>EnvObject.ProvaQuadro</type>
+  <hierarchy>com.freedomotic.things.impl.ProvaQuadro</hierarchy>
   <protocol>unknown</protocol>
   <phisicalAddress>unknown</phisicalAddress>
   <behaviors>
@@ -15,24 +15,6 @@
       <selected>0</selected>
       <list>
         <string>china</string>
-        <string>china1</string>
-        <string>china2</string>
-        <string>china3</string>
-        <string>china4</string>
-      </list>
-    </com.freedomotic.model.object.ListBehavior>
-    <com.freedomotic.model.object.ListBehavior>
-      <name>conditions_2</name>
-      <description>japan image</description>
-      <active>true</active>
-      <priority>-1</priority>
-      <selected>0</selected>
-      <list>
-        <string>japan</string>
-        <string>japan1</string>
-        <string>japan2</string>
-        <string>japan3</string>
-        <string>japan4</string>
       </list>
     </com.freedomotic.model.object.ListBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
@@ -133,86 +115,6 @@
       <offset x="0" y="0"/>
       <rotation>0.0</rotation>
       <icon>china4.png</icon>
-      <fillColor>#000000</fillColor>
-      <textColor>#000000</textColor>
-      <borderColor>#000000</borderColor>
-      <shape class="polygon">
-        <point x="0" y="0"/>
-        <point x="64" y="0"/>
-        <point x="64" y="64"/>
-        <point x="0" y="64"/>
-      </shape>
-    </view>
-    <view>
-      <tangible>true</tangible>
-      <intersecable>false</intersecable>
-      <offset x="0" y="0"/>
-      <rotation>0.0</rotation>
-      <icon>japan.png</icon>
-      <fillColor>#000000</fillColor>
-      <textColor>#000000</textColor>
-      <borderColor>#000000</borderColor>
-      <shape class="polygon">
-        <point x="0" y="0"/>
-        <point x="64" y="0"/>
-        <point x="64" y="64"/>
-        <point x="0" y="64"/>
-      </shape>
-    </view>
-    <view>
-      <tangible>true</tangible>
-      <intersecable>false</intersecable>
-      <offset x="0" y="0"/>
-      <rotation>0.0</rotation>
-      <icon>japan1.png</icon>
-      <fillColor>#000000</fillColor>
-      <textColor>#000000</textColor>
-      <borderColor>#000000</borderColor>
-      <shape class="polygon">
-        <point x="0" y="0"/>
-        <point x="64" y="0"/>
-        <point x="64" y="64"/>
-        <point x="0" y="64"/>
-      </shape>
-    </view>
-    <view>
-      <tangible>true</tangible>
-      <intersecable>false</intersecable>
-      <offset x="0" y="0"/>
-      <rotation>0.0</rotation>
-      <icon>japan2.png</icon>
-      <fillColor>#000000</fillColor>
-      <textColor>#000000</textColor>
-      <borderColor>#000000</borderColor>
-      <shape class="polygon">
-        <point x="0" y="0"/>
-        <point x="64" y="0"/>
-        <point x="64" y="64"/>
-        <point x="0" y="64"/>
-      </shape>
-    </view>
-    <view>
-      <tangible>true</tangible>
-      <intersecable>false</intersecable>
-      <offset x="0" y="0"/>
-      <rotation>0.0</rotation>
-      <icon>japan3.png</icon>
-      <fillColor>#000000</fillColor>
-      <textColor>#000000</textColor>
-      <borderColor>#000000</borderColor>
-      <shape class="polygon">
-        <point x="0" y="0"/>
-        <point x="64" y="0"/>
-        <point x="64" y="64"/>
-        <point x="0" y="64"/>
-      </shape>
-    </view>
-    <view>
-      <tangible>true</tangible>
-      <intersecable>false</intersecable>
-      <offset x="0" y="0"/>
-      <rotation>0.0</rotation>
-      <icon>japan4.png</icon>
       <fillColor>#000000</fillColor>
       <textColor>#000000</textColor>
       <borderColor>#000000</borderColor>

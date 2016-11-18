@@ -1,0 +1,13 @@
+<com.freedomotic.reactions.Command>
+	<name>change epaint to japan image</name>
+	<receiver>app.events.sensors.behavior.request.objects</receiver>
+	<descritpion>change epaint image</description>
+	<properties>
+		<properties>
+			<property name="behavior" value="conditions"/>
+			<property name="value" value="japan.png"/>
+			<property name="object" value="Epaint"/>
+		</properties>
+		<tuples/>	
+	</properties>
+</com.freedomotic.reactions.Command>

@@ -36,15 +36,13 @@ import java.util.Random;
  *
  * @author Mauro Cicolella
  */
-public class Epaint extends EnvObjectLogic {
+public class ProvaQuadro extends EnvObjectLogic {
 
-    private static final Logger LOG = Logger.getLogger(Epaint.class.getName());
+    private static final Logger LOG = Logger.getLogger(ProvaQuadro.class.getName());
     private RangedIntBehaviorLogic brightness;
     private ListBehaviorLogic conditions;
-    private ListBehaviorLogic conditions_2;
     private int brightnessStoredValue = 0;
     private static final String BEHAVIOR_CONDITIONS = "conditions";
-    private static final String BEHAVIOR_CONDITIONS_2 = "conditions_2";
     private static final String BEHAVIOR_BRIGHTNESS = "brightness";
 
     @Override
@@ -93,21 +91,7 @@ public class Epaint extends EnvObjectLogic {
         //register new behaviors to the superclass to make it visible to it
         registerBehavior(conditions);
         super.init();
-        
-        conditions_2 = new ListBehaviorLogic((ListBehavior) getPojo().getBehavior(BEHAVIOR_CONDITIONS_2));
-        conditions_2.addListener(new ListBehaviorLogic.Listener() {
-
-            @Override
-            public void selectedChanged(Config params, boolean fireCommand) {
-                setConditions_2(params.getProperty("value"), params, fireCommand);
-            }
-        });
-
-        //register new behaviors to the superclass to make it visible to it
-        registerBehavior(conditions_2);
-        super.init();
-                
-        
+   
     }
     
     
@@ -133,61 +117,70 @@ public class Epaint extends EnvObjectLogic {
             conditions.setSelected(selectedCondition);
             setChanged(true);
         }
-       setIcon();
-       
+       //setIcon();
+        
+       setNation();
     }
     
-        public void setConditions_2(String selectedCondition, Config params, boolean fireCommand) {
-        if (fireCommand) {
-            if (executeCommand("set conditions_2", params)) {
-                //Executed succesfully, update the value
-                conditions_2.setSelected(selectedCondition);
-                setChanged(true);
-            }
-        } else {
-            // Just a change in the virtual thing status
-            conditions_2.setSelected(selectedCondition);
-            setChanged(true);
-        }
-        setIcon_2();
-    }
-     
 
+      
+    public void setNation(){
+        int icon_number = 0;
+        
+        if (conditions.getSelected().equals("china")){
+            icon_number = random(1);
+            getPojo().setCurrentRepresentation(icon_number);
+        }
+        else if (conditions.getSelected().equals("japan")){
+            icon_number = random(2);
+            getPojo().setCurrentRepresentation(icon_number);
+        }
+        else 
+            getPojo().setCurrentRepresentation(0);
+    }
+    
+    public int random(int nations)
+    {
+        int min = 1;
+        int max = 5;
+        int range;
+        int randomNum;
+        range = nations;
+        min = min + max*(range-1);
+        max = max + max*(range-1);
+        Random rand = new Random();
+        
+        switch (range){
+            case 1:
+                randomNum = rand.nextInt(max - min + 1) + min;
+                break;
+            case 2:
+                randomNum = rand.nextInt(max - min + 1) + min;
+                break;
+                
+            default:
+                randomNum = 0;
+        }
+                
+        return randomNum;          
+    }
 
     private void setIcon() {
         //getPojo().setCurrentRepresentation(1);
-        if (conditions.getSelected().equals("generic")) {
-            getPojo().setCurrentRepresentation(0);
-        }    else if (conditions.getSelected().equals("wall china")) {
+        if (conditions.getSelected().equals("china")) {
             getPojo().setCurrentRepresentation(1);
-        } else if (conditions.getSelected().equals("china1")) {
+        }    else if (conditions.getSelected().equals("china1")) {
             getPojo().setCurrentRepresentation(2);
         } else if (conditions.getSelected().equals("china2")) {
             getPojo().setCurrentRepresentation(3);
         } else if (conditions.getSelected().equals("china3")) {
             getPojo().setCurrentRepresentation(4);
-        } else if (conditions.getSelected().equals("japan")) {
+        } else if (conditions.getSelected().equals("china4")) {
             getPojo().setCurrentRepresentation(5);
         } 
         
     }
-    private void setIcon_2(){
-        
-        if (conditions_2.getSelected().equals("generic")) {
-            getPojo().setCurrentRepresentation(0);
-        }    else if (conditions_2.getSelected().equals("japan")) {
-            getPojo().setCurrentRepresentation(6);
-        } else if (conditions_2.getSelected().equals("japan1")) {
-            getPojo().setCurrentRepresentation(7);
-        } else if (conditions_2.getSelected().equals("japan2")) {
-            getPojo().setCurrentRepresentation(8);
-        } else if (conditions_2.getSelected().equals("japan3")) {
-            getPojo().setCurrentRepresentation(9);
-        } else if (conditions_2.getSelected().equals("japan4")) {
-            getPojo().setCurrentRepresentation(10);
-        } 
-        
-    }
+    
 
     /**
      * Creates user level commands for this class of freedomotic objects
@@ -202,18 +195,8 @@ public class Epaint extends EnvObjectLogic {
         changeNext.setReceiver("app.events.sensors.behavior.request.objects");
         changeNext.setProperty("object", getPojo().getName());
         changeNext.setProperty("behavior", "conditions" );
-        changeNext.setProperty("value", Behavior.VALUE_NEXT);
-        commandRepository.create(changeNext);
-        
-        Command changeNext_2 = new Command();
-        changeNext_2.setName("Set " + getPojo().getName() + " next Image(japan)");
-        changeNext_2.setDescription("Change the paint image " + getPojo().getName() + " to next");
-        changeNext_2.setReceiver("app.events.sensors.behavior.request.objects");
-        changeNext_2.setProperty("object", getPojo().getName());
-        changeNext_2.setProperty("behavior", "conditions_2");
-        changeNext_2.setProperty("value", Behavior.VALUE_NEXT);
-        commandRepository.create(changeNext_2);
-        
+        changeNext.setProperty("value","china");
+        commandRepository.create(changeNext); 
         
     }
 
@@ -229,14 +212,5 @@ public class Epaint extends EnvObjectLogic {
         triggerRepository.create(clicked);
         
         
-        
-        Trigger paint = new Trigger();
-        paint.setName("If " + this.getPojo().getName()+" is japan ");
-        paint.setChannel("app.event.sensor.calendar.event.schedule");
-        paint.getPayload().addStatement("object.name",
-                this.getPojo().getName());
-        paint.getPayload().addStatement("change", null);
-        paint.setPersistence(false);
-        triggerRepository.create(paint);
     }
 }
