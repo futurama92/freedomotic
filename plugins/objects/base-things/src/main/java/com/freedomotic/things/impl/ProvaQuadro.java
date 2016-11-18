@@ -131,10 +131,7 @@ public class ProvaQuadro extends EnvObjectLogic {
             icon_number = random(1);
             getPojo().setCurrentRepresentation(icon_number);
         }
-        else if (conditions.getSelected().equals("japan")){
-            icon_number = random(2);
-            getPojo().setCurrentRepresentation(icon_number);
-        }
+
         else 
             getPojo().setCurrentRepresentation(0);
     }
