@@ -72,10 +72,6 @@ public class ProvaQuadro extends EnvObjectLogic {
         registerBehavior(brightness);
         super.init();
         
-        
-     
-        
-
         conditions = new ListBehaviorLogic((ListBehavior) getPojo().getBehavior(BEHAVIOR_CONDITIONS));
         conditions.addListener(new ListBehaviorLogic.Listener() {
 
@@ -115,14 +111,13 @@ public class ProvaQuadro extends EnvObjectLogic {
             conditions.setSelected(selectedCondition);
             setChanged(true);
         }
-       //setIcon();
-        
+
        setNation();
     }
     
     
     public void setNation(){
-        int icon_number;
+        int icon_number = 0;
         
         if (conditions.getSelected().equals("china")){
            icon_number = random(1);
@@ -132,10 +127,7 @@ public class ProvaQuadro extends EnvObjectLogic {
            icon_number = random(2);
             getPojo().setCurrentRepresentation(icon_number);
         }
-       
 
-         
-          //  getPojo().setCurrentRepresentation(0);
     }
     
     public int random(int nations)
@@ -164,22 +156,6 @@ public class ProvaQuadro extends EnvObjectLogic {
         return randomNum;          
     }
 
-    private void setIcon() {
-        //getPojo().setCurrentRepresentation(1);
-        if (conditions.getSelected().equals("china")) {
-            getPojo().setCurrentRepresentation(1);
-        }    else if (conditions.getSelected().equals("china1")) {
-            getPojo().setCurrentRepresentation(2);
-        } else if (conditions.getSelected().equals("china2")) {
-            getPojo().setCurrentRepresentation(3);
-        } else if (conditions.getSelected().equals("china3")) {
-            getPojo().setCurrentRepresentation(4);
-        } else if (conditions.getSelected().equals("china4")) {
-            getPojo().setCurrentRepresentation(5);
-        } 
-        
-    }
-    
 
     /**
      * Creates user level commands for this class of freedomotic objects
@@ -196,7 +172,7 @@ public class ProvaQuadro extends EnvObjectLogic {
             changeNext[i].setDescription("Change the paint image " + getPojo().getName() + " to next");
             changeNext[i].setReceiver("app.events.sensors.behavior.request.objects");
             changeNext[i].setProperty("object", getPojo().getName());
-            changeNext[i].setProperty("behavior", "conditions" ); 
+            changeNext[i].setProperty("behavior", BEHAVIOR_CONDITIONS ); 
             changeNext[i].setProperty("value", BEHAVIOR_NATIONS[i]);
             commandRepository.create(changeNext[i]);
         }
