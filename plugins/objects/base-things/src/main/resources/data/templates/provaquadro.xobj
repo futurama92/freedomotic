@@ -16,7 +16,6 @@
       <list>
         <string>china</string>
         <string>japan</string>
-        <string>russia</string>
       </list>
     </com.freedomotic.model.object.ListBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
@@ -210,9 +209,11 @@
   </representation>
   <actions>
      <property name="set brightness" value="Execute it successfully"/>
+     <property name="set conditions" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="brightness"/>
+    <property name="" value="conditions"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

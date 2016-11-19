@@ -52,10 +52,6 @@ public class ProvaQuadro extends EnvObjectLogic {
     public void init() {
         
         getPojo().setCurrentRepresentation(0);
-      
-        
-        //linking this property with the behavior defined in the XML
-        
         brightness = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_BRIGHTNESS));
         brightness.setValue(brightnessStoredValue);
         brightness.addListener(new RangedIntBehaviorLogic.Listener() {
@@ -73,8 +69,6 @@ public class ProvaQuadro extends EnvObjectLogic {
                     executeSetBrightness(rangeValue, params);
             }
         });
-        
-        //register new behaviors to the superclass to make it visible to it
         registerBehavior(brightness);
         super.init();
         
@@ -126,16 +120,6 @@ public class ProvaQuadro extends EnvObjectLogic {
        setNation();
     }
     
-
-    public String switchNation(String check){
-        
-        if (check.equals("china"))
-            return "china";
-        if (check.equals("japan"))
-            return "japan";
-        
-        return "default";
-    }
     
     public void setNation(){
         int icon_number;
@@ -143,14 +127,15 @@ public class ProvaQuadro extends EnvObjectLogic {
         if (conditions.getSelected().equals("china")){
            icon_number = random(1);
             getPojo().setCurrentRepresentation(icon_number);
-        } else if (conditions.getSelected().equals("japan")){
+        } 
+        if (conditions.getSelected().equals("japan")){
            icon_number = random(2);
             getPojo().setCurrentRepresentation(icon_number);
         }
        
 
-        else 
-            getPojo().setCurrentRepresentation(0);
+         
+          //  getPojo().setCurrentRepresentation(0);
     }
     
     public int random(int nations)
@@ -212,19 +197,10 @@ public class ProvaQuadro extends EnvObjectLogic {
             changeNext[i].setReceiver("app.events.sensors.behavior.request.objects");
             changeNext[i].setProperty("object", getPojo().getName());
             changeNext[i].setProperty("behavior", "conditions" ); 
-            changeNext[i].setProperty("value",BEHAVIOR_NATIONS[i]);
+            changeNext[i].setProperty("value", BEHAVIOR_NATIONS[i]);
             commandRepository.create(changeNext[i]);
         }
-        /*
-            Command changeNext = new Command();
-            changeNext.setName("Set " + getPojo().getName() + " next Image");
-            changeNext.setDescription("Change the paint image " + getPojo().getName() + " to next");
-            changeNext.setReceiver("app.events.sensors.behavior.request.objects");
-            changeNext.setProperty("object", getPojo().getName());
-            changeNext.setProperty("behavior", "conditions" ); 
-            changeNext.setProperty("value",BEHAVIOR_NATIONS[0]);
-            commandRepository.create(changeNext);
-*/
+
     }
 
     @Override
