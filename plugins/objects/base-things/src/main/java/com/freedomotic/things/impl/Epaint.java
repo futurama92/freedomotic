@@ -26,17 +26,20 @@ import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.things.EnvObjectLogic;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.model.object.Behavior;
+import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.ListBehavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
+import static com.freedomotic.things.impl.ElectricDevice.BEHAVIOR_POWERED;
 import java.util.logging.Logger;
 import java.util.Random;
+
 
 /**
  *
  * @author Mauro Cicolella
  */
-public class Epaint extends EnvObjectLogic {
+public class Epaint extends ElectricDevice {
 
     private static final Logger LOG = Logger.getLogger(Epaint.class.getName());
     private RangedIntBehaviorLogic brightness;
@@ -345,6 +348,15 @@ public class Epaint extends EnvObjectLogic {
         changeNext_5.setProperty("behavior", BEHAVIOR_CONDITIONS_5);
         changeNext_5.setProperty("value", Behavior.VALUE_NEXT);
         commandRepository.create(changeNext_5);
+        
+        Command setItOff = new Command();
+        setItOff.setName("Turn " + getPojo().getName() + "  off");
+        setItOff.setDescription("Object turns off");
+        setItOff.setReceiver("app.events.sensors.behavior.request.objects");
+        setItOff.setProperty("object", "@event.object.name");
+        setItOff.setProperty("behavior", BEHAVIOR_POWERED);
+        setItOff.setProperty("value", BooleanBehavior.VALUE_FALSE);
+        commandRepository.create(setItOff);
         
         
     }
