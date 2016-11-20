@@ -22,7 +22,7 @@
       <value>0</value>
       <max>100</max>
       <min>0</min>
-      <step>1</step> 
+      <step>5</step> 
     </com.freedomotic.model.object.RangedIntBehavior>
   </behaviors>
   <representation>

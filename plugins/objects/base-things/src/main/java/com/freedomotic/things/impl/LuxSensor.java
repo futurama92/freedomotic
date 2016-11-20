@@ -30,7 +30,6 @@ import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.model.object.Behavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
-import static com.freedomotic.things.impl.Light.BEHAVIOR_BRIGHTNESS;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +42,7 @@ public class LuxSensor extends EnvObjectLogic {
 
     private static final Logger LOG = Logger.getLogger(GenericSensor.class.getName()); 
     private RangedIntBehaviorLogic readValue;
+    private static final String BEHAVIOR_READVALUE = "readValue";
     
 
     @Override
@@ -110,14 +110,25 @@ public class LuxSensor extends EnvObjectLogic {
         
         Command b = new Command();
         // b.setName(I18n.msg("increase_X_brightness", new Object[]{this.getPojo().getName()}));
-        b.setName("Increase " + getPojo().getName() + " brightness");
-        b.setDescription("increases " + getPojo().getName() + " brightness of one step");
+        b.setName("Increase " + getPojo().getName() + " sensor value");
+        b.setDescription("increases " + getPojo().getName() + " sensor value of one step");
         b.setReceiver("app.events.sensors.behavior.request.objects");
         b.setProperty("object",
                 getPojo().getName());
         b.setProperty("behavior", "readValue");
         b.setProperty("value", Behavior.VALUE_NEXT);
         commandRepository.create(b);
+        
+        Command a = new Command();
+        // b.setName(I18n.msg("increase_X_brightness", new Object[]{this.getPojo().getName()}));
+        a.setName("Decrease " + getPojo().getName() + " sensor value");
+        a.setDescription("Decreases " + getPojo().getName() + " sensor Value of one step");
+        a.setReceiver("app.events.sensors.behavior.request.objects");
+        a.setProperty("object",
+                getPojo().getName());
+        a.setProperty("behavior", "readValue");
+        a.setProperty("value", Behavior.VALUE_PREVIOUS);
+        commandRepository.create(a);
     }
 
     @Override
@@ -134,7 +145,7 @@ public class LuxSensor extends EnvObjectLogic {
         low_light.setName("When " + this.getPojo().getName() + " value(light) is too low");
         low_light.setChannel("app.event.sensor.object.behavior.change");
         low_light.getPayload().addStatement("object.name", this.getPojo().getName());
-        low_light.getPayload().addStatement("AND", "object.behavior." + this.getPojo().getName(), "LESS_THAN", "50");
+        low_light.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_READVALUE, "LESS_THAN", "50");
         low_light.setPersistence(false);
         triggerRepository.create(low_light);
         

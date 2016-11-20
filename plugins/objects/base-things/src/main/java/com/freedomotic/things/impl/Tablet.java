@@ -9,9 +9,11 @@ import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.events.ObjectReceiveClick;
 import com.freedomotic.model.ds.Config;
 import com.freedomotic.model.object.Behavior;
+import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
+import static com.freedomotic.things.impl.ElectricDevice.BEHAVIOR_POWERED;
 
 /**
  *
@@ -104,13 +106,40 @@ public class Tablet extends ElectricDevice {
         brigh_down.setName("Decrease " + getPojo().getName() + " brightness");
         brigh_down.setDescription("decreases " + getPojo().getName() + " brightness of one step");
         brigh_down.setReceiver("app.events.sensors.behavior.request.objects");
-        brigh_down.setProperty("object",
-                getPojo().getName());
+        brigh_down.setProperty("object", getPojo().getName());
         brigh_down.setProperty("behavior", BEHAVIOR_BRIGHTNESS);
         brigh_down.setProperty("value", Behavior.VALUE_PREVIOUS);
         
+        Command setItOff = new Command();
+        setItOff.setName("Turn " + getPojo().getName() + "  off");
+        setItOff.setDescription("Object turns off");
+        setItOff.setReceiver("app.events.sensors.behavior.request.objects");
+        setItOff.setProperty("object", "@event.object.name");
+        setItOff.setProperty("behavior", BEHAVIOR_POWERED);
+        setItOff.setProperty("value", BooleanBehavior.VALUE_FALSE);
+ 
+        
+        Command setItOn = new Command();
+        setItOn.setName("Turn " + getPojo().getName() + "  on");
+        setItOn.setDescription("Object turns on");
+        setItOn.setReceiver("app.events.sensors.behavior.request.objects");
+        setItOn.setProperty("object", "@event.object.name");
+        setItOn.setProperty("behavior", BEHAVIOR_POWERED);
+        setItOn.setProperty("value", BooleanBehavior.VALUE_TRUE);
+        
         commandRepository.create(brigh_up);
         commandRepository.create(brigh_down);
+        commandRepository.create(setItOn);
+        commandRepository.create(setItOff);
+        
+        Command switchItsPower = new Command();
+        switchItsPower.setName("Switch " + getPojo().getName() + " power");
+        switchItsPower.setDescription("Object switches its power");
+        switchItsPower.setReceiver("app.events.sensors.behavior.request.objects");
+        switchItsPower.setProperty("object", "@event.object.name");
+        switchItsPower.setProperty("behavior", BEHAVIOR_POWERED);
+        switchItsPower.setProperty("value", BooleanBehavior.VALUE_OPPOSITE);
+        commandRepository.create(switchItsPower);
     }
     
     
