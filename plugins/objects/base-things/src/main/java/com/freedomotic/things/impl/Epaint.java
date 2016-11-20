@@ -234,6 +234,8 @@ public class Epaint extends ElectricDevice {
 
     private void setIcon() {
         //getPojo().setCurrentRepresentation(1);
+        if (powered.getValue() == false)
+            getPojo().setCurrentRepresentation(0);
         if (conditions.getSelected().equals("generic")) {
             getPojo().setCurrentRepresentation(0);
         }    else if (conditions.getSelected().equals("china")) {
