@@ -8,8 +8,10 @@ package com.freedomotic.things.impl;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.model.ds.Config;
 import com.freedomotic.model.object.Behavior;
+import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.reactions.Command;
+import com.freedomotic.reactions.Trigger;
 import static com.freedomotic.things.impl.Light.BEHAVIOR_BRIGHTNESS;
 
 /**

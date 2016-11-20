@@ -1,0 +1,49 @@
+<object>
+  <name>LuxSensor</name>
+  <description>A light sensor</description>
+  <actAs>virtual</actAs>
+  <type>EnvObject.ElectricDevice.LuxSensor</type>
+  <hierarchy>com.freedomotic.things.impl.LuxSensor</hierarchy>
+  <protocol>unknown</protocol>
+  <phisicalAddress>unknown</phisicalAddress>
+  <behaviors>
+    <com.freedomotic.model.object.RangedIntBehavior>
+      <name>readValue</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>0</value>
+      <max>100</max>
+      <min>0</min>
+      <step>2</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+  </behaviors>
+  <representation>
+    <view>
+      <tangible>true</tangible>
+      <intersecable>false</intersecable>
+      <offset x="0" y="0"/>
+      <rotation>0.0</rotation>
+      <icon>lux-sensor.png</icon>
+      <fillColor>#000000</fillColor>
+      <textColor>#000000</textColor>
+      <borderColor>#000000</borderColor>
+      <shape class="polygon">
+        <point x="0" y="0"/>
+        <point x="64" y="0"/>
+        <point x="64" y="64"/>
+        <point x="0" y="64"/>
+      </shape>
+    </view>
+  </representation>
+  <actions>
+    <property name="turn off" value="Execute it successfully"/>
+    <property name="turn on" value="Execute it successfully"/>
+    <property name="set brightness" value="Execute it successfully"/>
+  </actions>
+  <triggers>
+    <property name="" value="powered"/>
+    <property name="" value="brightness"/>
+  </triggers>
+  <currentRepresentation>0</currentRepresentation>
+</object>
