@@ -22,13 +22,16 @@ package com.freedomotic.plugins.devices.hello;
 import com.freedomotic.api.EventTemplate;
 import com.freedomotic.api.Protocol;
 import com.freedomotic.exceptions.UnableToExecuteException;
+import com.freedomotic.model.object.EnvObject;
 import com.freedomotic.things.EnvObjectLogic;
 import com.freedomotic.things.ThingRepository;
 import com.freedomotic.reactions.Command;
+import com.freedomotic.things.GenericPerson;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.font.Decoration;
 
 /**
  *
@@ -57,15 +60,7 @@ public class HelloWorld
         setPollingWait(POLLING_WAIT); //millisecs interval between hardware device status reads
     }
 
-    @Override
-    protected void onShowGui() {
-        /**
-         * uncomment the line below to add a GUI to this plugin the GUI can be
-         * started with a right-click on plugin list on the desktop frontend
-         * (com.freedomotic.jfrontend plugin)
-         */
-        //bindGuiToPlugin(new HelloWorldGui(this));
-    }
+
 
     @Override
     protected void onHideGui() {
@@ -76,9 +71,19 @@ public class HelloWorld
 
     @Override
     protected void onRun() {
+        
+       EnvObjectLogic ciao = new GenericPerson();
+       
+        
+        if(getApi().things().create(ciao))
+            LOG.info("PERSONA CREATA");
+        GenericPerson prova = (GenericPerson)ciao;
+        ciao.init();
         for (EnvObjectLogic thing : thingsRepository.findAll()) {
             LOG.info("HelloWorld sees Thing: {}", thing.getPojo().getName());
         }
+
+        
     }
 
     @Override
