@@ -1,0 +1,9 @@
+<config>
+    <properties>
+        <property name="description"                       value="A various movement"/>
+        <property name="category"                       value="devel"/>
+        <property name="short-name"                       value="movement"/>
+    </properties>
+</config>
+
+                
