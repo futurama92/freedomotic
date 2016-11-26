@@ -50,7 +50,8 @@ public class Movement extends Protocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(Movement.class.getName());
     private static final String path = "C:\\Users\\ricca\\Documents\\NetBeansProjects\\freedomotic\\framework\\freedomotic-core\\plugins\\devices\\simulation\\data\\motes\\";
-
+    private Boolean powered = true;
+    Movement sensor;
 
     /**
      *
@@ -65,10 +66,10 @@ public class Movement extends Protocol {
 
     @Override
     protected void onRun() {
-        deleteFile(path);
+        //deleteFile(path);
         LOG.info("MOVEMENT ON RUN");
-        //createUsers();
-        provaRiccardo();
+        createUsers();
+        //provaRiccardo();
     }
 
 
@@ -77,7 +78,7 @@ public class Movement extends Protocol {
 
     @Override
     protected void onCommand(Command c)
-            throws IOException, UnableToExecuteException {
+            throws IOException, UnableToExecuteException {throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -150,11 +151,27 @@ public class Movement extends Protocol {
 
     
     //WORK IN PROGRESS
-    private void createUsers() {
+    public void createUsers() {
+            
         
-            ProtocolRead event = new ProtocolRead(this, "test", "test");
-            event.getPayload().addStatement("object.class", "Person");
-            event.getPayload().addStatement("object.name", "Robot1"); 
+        ProtocolRead event = new ProtocolRead(this, "test", "test");
+        event.getPayload().addStatement("value",powered.toString());
+        event.getPayload().addStatement("object.class", "LightRiccardo");
+        event.getPayload().addStatement("object.name", "Created by Riccardo");
+        //invert the value for the next round
+        notifyEvent(event);
+        
+        
+        
+        Command c = new Command();
+        c.setName("Join Custom User Object");
+        c.setReceiver("app.objects.create");
+        c.setProperty("object.class", "Light");
+        c.setProperty("object.name", "LightRiccardo");
+        c.setProperty("object.protocol", "unknown");
+        c.setProperty("object.address", "unknown");
+        sensor.notifyCommand(c);
 
+        
     }
 }
