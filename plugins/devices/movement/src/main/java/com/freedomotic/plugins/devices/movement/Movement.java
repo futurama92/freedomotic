@@ -51,13 +51,14 @@ public class Movement extends Protocol {
     private static final Logger LOG = LoggerFactory.getLogger(Movement.class.getName());
     private static final String path = "C:\\Users\\ricca\\Documents\\NetBeansProjects\\freedomotic\\framework\\freedomotic-core\\plugins\\devices\\simulation\\data\\motes\\";
     private Boolean powered = true;
-    Movement sensor;
+
 
     /**
      *
      */
     public Movement() {
         super("Movement", "/movement/movement-manifest.xml");
+        
     }
 
 
@@ -154,23 +155,22 @@ public class Movement extends Protocol {
     public void createUsers() {
             
         
-        ProtocolRead event = new ProtocolRead(this, "test", "test");
-        event.getPayload().addStatement("value",powered.toString());
-        event.getPayload().addStatement("object.class", "LightRiccardo");
-        event.getPayload().addStatement("object.name", "Created by Riccardo");
+        ProtocolRead event = new ProtocolRead(this, "unkown", "unkown");
+        event.getPayload().addStatement("object.class", "Fridge");
+        event.getPayload().addStatement("object.name", "RiccardosFridge");
         //invert the value for the next round
-        notifyEvent(event);
+        this.notifyEvent(event);
         
         
         
         Command c = new Command();
         c.setName("Join Custom User Object");
         c.setReceiver("app.objects.create");
-        c.setProperty("object.class", "Light");
-        c.setProperty("object.name", "LightRiccardo");
+        c.setProperty("object.class", "Fridge");
+        c.setProperty("object.name", "RiccardosFridge");
         c.setProperty("object.protocol", "unknown");
-        c.setProperty("object.address", "unknown");
-        sensor.notifyCommand(c);
+        c.setProperty("object.address", "unkown");
+        this.notifyCommand(c);
 
         
     }
