@@ -153,25 +153,25 @@ public class Movement extends Protocol {
     
     //WORK IN PROGRESS
     public void createUsers() {
+        
+        for(int i = 0; i < 10; i++){
             
-        
-        ProtocolRead event = new ProtocolRead(this, "unkown", "unkown");
-        event.getPayload().addStatement("object.class", "Fridge");
-        event.getPayload().addStatement("object.name", "RiccardosFridge");
-        //invert the value for the next round
-        this.notifyEvent(event);
-        
-        
-        
-        Command c = new Command();
-        c.setName("Join Custom User Object");
-        c.setReceiver("app.objects.create");
-        c.setProperty("object.class", "Fridge");
-        c.setProperty("object.name", "RiccardosFridge");
-        c.setProperty("object.protocol", "unknown");
-        c.setProperty("object.address", "unkown");
-        this.notifyCommand(c);
-
-        
+            ProtocolRead event = new ProtocolRead(this, "unknown", "unknown");
+            event.getPayload().addStatement("object.class", "Clock");
+            event.getPayload().addStatement("object.name", "CFUser" + i);
+            event.getPayload().addStatement("object.actAs", "virtual");
+            this.notifyEvent(event);
+            
+            Command c = new Command();
+            c.setName("Join Custom User Object");
+            c.setReceiver("app.objects.create");
+            c.setProperty("object.class", "Clock");
+            c.setProperty("object.name", "CFUser" + i);
+            c.setProperty("object.protocol", "unknown");
+            c.setProperty("object.address", "unknown");
+            c.setProperty("object.actAs", "virtual");
+            this.notifyCommand(c);            
+            LOG.info("Create CFUser" + i);    
+        }  
     }
 }
