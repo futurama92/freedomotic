@@ -1,0 +1,71 @@
+<object>
+  <name>Sphygmomanometer</name>
+  <description>A Sphygmomanometer</description>
+  <actAs>virtual</actAs>
+  <type>EnvObject.ElectricDevice.Sphygmomanometer</type>
+  <hierarchy>com.freedomotic.things.impl.Sphygmomanometer</hierarchy>
+  <protocol>unknown</protocol>
+  <phisicalAddress>unknown</phisicalAddress>
+  <behaviors>
+    <com.freedomotic.model.object.BooleanBehavior>
+      <name>powered</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>false</value>
+    </com.freedomotic.model.object.BooleanBehavior>
+    <com.freedomotic.model.object.RangedIntBehavior>
+      <name>maximumPressure</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>60</value>
+      <max>150</max>
+      <min>60</min>
+      <step>1</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+    <com.freedomotic.model.object.RangedIntBehavior>
+      <name>minimumPressure</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>40</value>
+      <max>120</max>
+      <min>40</min>
+      <step>1</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+    <com.freedomotic.model.object.RangedIntBehavior>
+      <name>batteryLevel</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>90</value>
+      <max>100</max>
+      <min>0</min>
+      <step>1</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+  </behaviors>
+  <representation>
+    <view>
+      <tangible>true</tangible>
+      <intersecable>false</intersecable>
+      <offset x="0" y="0"/>
+      <rotation>0.0</rotation>
+      <icon>sphygmomanometer.png</icon>
+      <fillColor>#000000</fillColor>
+      <textColor>#000000</textColor>
+      <borderColor>#000000</borderColor>
+      <shape class="polygon">
+        <point x="0" y="0"/>
+        <point x="64" y="0"/>
+        <point x="64" y="64"/>
+        <point x="0" y="64"/>
+      </shape>
+    </view>
+  </representation>
+  <actions>
+  </actions>
+  <triggers>
+  </triggers>
+  <currentRepresentation>0</currentRepresentation>
+</object>
