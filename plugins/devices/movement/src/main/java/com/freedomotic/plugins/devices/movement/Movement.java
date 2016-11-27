@@ -154,10 +154,10 @@ public class Movement extends Protocol {
     //WORK IN PROGRESS
     public void createUsers() {
         
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 4; i++){
             
             ProtocolRead event = new ProtocolRead(this, "unknown", "unknown");
-            event.getPayload().addStatement("object.class", "Clock");
+            event.getPayload().addStatement("object.class", "user");
             event.getPayload().addStatement("object.name", "CFUser" + i);
             event.getPayload().addStatement("object.actAs", "virtual");
             this.notifyEvent(event);
@@ -165,7 +165,7 @@ public class Movement extends Protocol {
             Command c = new Command();
             c.setName("Join Custom User Object");
             c.setReceiver("app.objects.create");
-            c.setProperty("object.class", "Clock");
+            c.setProperty("object.class", "user");
             c.setProperty("object.name", "CFUser" + i);
             c.setProperty("object.protocol", "unknown");
             c.setProperty("object.address", "unknown");
