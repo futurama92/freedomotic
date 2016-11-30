@@ -13,6 +13,7 @@ import com.freedomotic.behaviors.BooleanBehaviorLogic;
 import com.freedomotic.behaviors.ListBehaviorLogic;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.reactions.Command;
+import static com.freedomotic.things.impl.Fridge.BEHAVIOR_SIMULETED_CONSUMPTION;
 /**
  *
  * @author ricca
@@ -26,6 +27,9 @@ public class TV extends ElectricDevice {
     public BooleanBehaviorLogic muted;
     public ListBehaviorLogic avSelection;
     public ListBehaviorLogic screenMode;
+    private RangedIntBehaviorLogic simuleted_consumption;
+    private int simuleted_consumptionValue = 0;
+    protected final static String BEHAVIOR_SIMULETED_CONSUMPTION = "simuleted_consumption";
 
     @Override
     public void init() {
@@ -123,8 +127,40 @@ public class TV extends ElectricDevice {
                 }
             }
         });
+        
+                simuleted_consumption = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION));
+        simuleted_consumption.setValue(simuleted_consumptionValue);
+        simuleted_consumption.addListener(new RangedIntBehaviorLogic.Listener() {
+
+            @Override
+            public void onLowerBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMin();
+                executePowerOff(params);
+            }
+
+            @Override
+            public void onUpperBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMax();
+                executePowerOn(params);
+            }
+
+            @Override
+            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
+                    executeSetPowerConsumption(rangeValue, params);
+            }
+        });
+        registerBehavior(simuleted_consumption);
         registerBehavior(screenMode);
         super.init();
+    }
+    
+    public void executeSetPowerConsumption(int rangeValue, Config params) {
+        boolean executed = executeCommand("set waterLevel", params);
+        if (executed) {
+            simuleted_consumption.setValue(rangeValue);
+            simuleted_consumptionValue = simuleted_consumption.getValue();
+            setChanged(true);
+        }
     }
 
     public void executeSetVolume(int rangeValue, Config params) {

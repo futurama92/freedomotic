@@ -147,10 +147,18 @@ public class PersonTroubled extends GenericPerson {
         logout.setChannel("app.event.sensor.account.change");
         logout.getPayload().addStatement("object.action", "LOGOUT");
         logout.setPersistence(false);
+        
+        Trigger user_fall = new Trigger();
+        user_fall.setName("When user " + this.getPojo().getName() + " fall down");
+        user_fall.setChannel("app.event.sensor.object.behavior.change");
+        user_fall.getPayload().addStatement("object.name", this.getPojo().getName());
+        user_fall.getPayload().addStatement("AND", "object.behavior.activity", "EQUALS", "Sleeping");
+        user_fall.setPersistence(false);
 
         triggerRepository.create(clicked);
         triggerRepository.create(login);
         triggerRepository.create(logout);
+        triggerRepository.create(user_fall);
     }
     private static final Logger LOG = Logger.getLogger(Person.class.getName());
     

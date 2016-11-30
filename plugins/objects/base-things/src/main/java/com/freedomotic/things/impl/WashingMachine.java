@@ -28,6 +28,7 @@ import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.ListBehavior;
 import com.freedomotic.reactions.Command;
+import static com.freedomotic.things.impl.Fridge.BEHAVIOR_SIMULETED_CONSUMPTION;
 
 /**
  * A 'Washing Machine' thing abstraction. Type is
@@ -59,6 +60,8 @@ public class WashingMachine extends ElectricDevice {
     private RangedIntBehaviorLogic spinningRpm;
     private ListBehaviorLogic washingProgram;
     private ListBehaviorLogic washingCycle;
+    private RangedIntBehaviorLogic simuleted_consumption;
+    private int simuleted_consumptionValue = 0;
 
     // The two main parameters of a basic washing machine
     protected final static String BEHAVIOR_WASHING = "washing";
@@ -68,9 +71,33 @@ public class WashingMachine extends ElectricDevice {
     protected final static String BEHAVIOR_WASHING_CYCLE = "washing-cycle";
     // Contains presets for temperature and spinning defined in the XML
     protected final static String BEHAVIOR_WASHING_PROGRAM = "washing-program";
+    protected final static String BEHAVIOR_SIMULETED_CONSUMPTION = "simuleted_consumption";
 
     @Override
     public void init() {
+        
+        
+        simuleted_consumption = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION));
+        simuleted_consumption.setValue(simuleted_consumptionValue);
+        simuleted_consumption.addListener(new RangedIntBehaviorLogic.Listener() {
+
+            @Override
+            public void onLowerBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMin();
+                executePowerOff(params);
+            }
+
+            @Override
+            public void onUpperBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMax();
+                executePowerOn(params);
+            }
+
+            @Override
+            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
+                    executeSetPowerConsumption(rangeValue, params);
+            }
+        });
         washing = new BooleanBehaviorLogic((BooleanBehavior) getPojo().getBehavior(BEHAVIOR_WASHING));
         //add a listener to values changes
         washing.addListener(new BooleanBehaviorLogic.Listener() {
@@ -148,11 +175,22 @@ public class WashingMachine extends ElectricDevice {
 
         //register new behaviors to the superclass to make it visible to it
         registerBehavior(washing);
+        registerBehavior(simuleted_consumption);
         registerBehavior(washingTemperature);
         registerBehavior(spinningRpm);
         registerBehavior(washingProgram);
         registerBehavior(washingCycle);
         super.init();
+    }
+    
+    
+    public void executeSetPowerConsumption(int rangeValue, Config params) {
+        boolean executed = executeCommand("set waterLevel", params);
+        if (executed) {
+            simuleted_consumption.setValue(rangeValue);
+            simuleted_consumptionValue = simuleted_consumption.getValue();
+            setChanged(true);
+        }
     }
 
     @Override

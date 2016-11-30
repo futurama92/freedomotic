@@ -51,10 +51,14 @@ public class Bathtub extends EnvObjectLogic {
 
             @Override
             public void onLowerBoundValue(Config params, boolean fireCommand) {
+                waterLevelValue = waterLevel.getMin();
+                executePowerOff(params);
             }
 
             @Override
             public void onUpperBoundValue(Config params, boolean fireCommand) {
+                waterLevelValue = waterLevel.getMax();
+                executePowerOn(params);
             }
 
             @Override
@@ -100,6 +104,24 @@ public class Bathtub extends EnvObjectLogic {
             setChanged(true);
         }
     }
+    
+    public void executePowerOff(Config params) {
+        // when a light is "powered off" its brightness is set to the minValue but the current value is stored
+        waterLevel.setValue(waterLevel.getMin());
+        // executeCommand the body of the super implementation. The super call
+        // must be the last call as it executes setChanged(true)
+    }
+    
+    public void executePowerOn(Config params) {
+        // when a light is "powered on" its brightness is set to the stored value if this is greater than the minValue
+        if (waterLevelValue > waterLevel.getMin()) {
+            waterLevel.setValue(waterLevelValue);
+        } else {
+            waterLevel.setValue(waterLevel.getMax());
+        }
+        // executeCommand the body of the super implementation. The super call
+        // must be the last call as it executes setChanged(true)
+    }
 
     
     @Override
@@ -133,6 +155,16 @@ public class Bathtub extends EnvObjectLogic {
         d.setProperty("behavior", "powered");
         d.setProperty("value", "false");
         commandRepository.create(d);
+        
+        Command block_water = new Command();
+        block_water.setName("Turn " + getPojo().getName() + " off");
+        block_water.setDescription("Stop " + getPojo().getName() + " waterLevel");
+        block_water.setReceiver("app.events.sensors.behavior.request.objects");
+        block_water.setProperty("object", getPojo().getName());
+        block_water.setProperty("behavior", "waterLevel");
+        block_water.setProperty("value", "95");
+        commandRepository.create(block_water);
+        
 
     }
     
@@ -153,7 +185,7 @@ public class Bathtub extends EnvObjectLogic {
         hard_water_level.setName("When " + this.getPojo().getName() + " water Level is 95%");
         hard_water_level.setChannel("app.event.sensor.object.behavior.change");
         hard_water_level.getPayload().addStatement("object.name", this.getPojo().getName());
-        hard_water_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_WATER, "GREATER_THEN", "94");
+        hard_water_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_WATER, "GREATER_THAN", "94");
         hard_water_level.setPersistence(false);
         triggerRepository.create(hard_water_level);
         

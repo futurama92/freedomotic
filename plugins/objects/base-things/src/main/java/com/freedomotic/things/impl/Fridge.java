@@ -24,6 +24,7 @@ import com.freedomotic.model.object.Behavior;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.reactions.Command;
+import static com.freedomotic.things.impl.Bathtub.BEHAVIOR_WATER;
 
 /**
  *
@@ -37,8 +38,11 @@ public class Fridge extends ElectricDevice {
 
     private RangedIntBehaviorLogic fridgeTemperature;
     private RangedIntBehaviorLogic freezerTemperature;
+    private RangedIntBehaviorLogic simuleted_consumption;
+    private int simuleted_consumptionValue = 0;
     protected final static String BEHAVIOR_FRIDGE_TEMPERATURE = "fridge-temperature";
     protected final static String BEHAVIOR_FREEZER_TEMPERATURE = "freezer-temperature";
+    protected final static String BEHAVIOR_SIMULETED_CONSUMPTION = "simuleted_consumption";
 
     @Override
     public void init() {
@@ -82,9 +86,42 @@ public class Fridge extends ElectricDevice {
             }
         });
         //register new behaviors to the superclass to make it visible to it
+        
+        simuleted_consumption = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION));
+        simuleted_consumption.setValue(simuleted_consumptionValue);
+        simuleted_consumption.addListener(new RangedIntBehaviorLogic.Listener() {
+
+            @Override
+            public void onLowerBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMin();
+                executePowerOff(params);
+            }
+
+            @Override
+            public void onUpperBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue = simuleted_consumption.getMax();
+                executePowerOn(params);
+            }
+
+            @Override
+            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
+                    executeSetPowerConsumption(rangeValue, params);
+            }
+        });
+
+        registerBehavior(simuleted_consumption);
         registerBehavior(fridgeTemperature);
         registerBehavior(freezerTemperature);
         super.init();
+    }
+    
+    public void executeSetPowerConsumption(int rangeValue, Config params) {
+        boolean executed = executeCommand("set waterLevel", params);
+        if (executed) {
+            simuleted_consumption.setValue(rangeValue);
+            simuleted_consumptionValue = simuleted_consumption.getValue();
+            setChanged(true);
+        }
     }
 
     public void executeSetFridgeTemperature(int rangeValue, Config params) {

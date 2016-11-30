@@ -1,5 +1,5 @@
 <object>
-  <name>User</name>
+  <name>User_Troubled</name>
   <description>A troubled user in the environment</description>
   <actAs>virtual</actAs>
   <type>EnvObject.Person.User</type>
@@ -33,6 +33,7 @@
         <string>Resting</string>
         <string>Standing</string>
         <string>Moving</string>
+        <string>Falled</string>
       </list> 
       <selected>2</selected>
     </com.freedomotic.model.object.ListBehavior>
@@ -72,6 +73,7 @@
   </actions>
   <triggers>
     <property name="" value="powered"/>
+    <property name="" value="activity"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>
