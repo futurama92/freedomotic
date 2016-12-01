@@ -21,27 +21,22 @@ package com.freedomotic.plugins.devices.homeassistant1;
 
 import com.freedomotic.api.EventTemplate;
 import com.freedomotic.api.Protocol;
+import com.freedomotic.events.LocationEvent;
 import com.freedomotic.events.ProtocolRead;
-import com.freedomotic.exceptions.PluginStartupException;
 import com.freedomotic.exceptions.UnableToExecuteException;
-import com.freedomotic.model.object.EnvObject;
-import com.freedomotic.plugins.TrackingReadFile;
-import com.freedomotic.plugins.fromfile.WorkerThread;
+import com.freedomotic.model.geometry.FreedomPoint;
 import com.freedomotic.things.EnvObjectLogic;
-import com.freedomotic.things.ThingRepository;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.things.GenericPerson;
-import com.google.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import com.freedomotic.things.impl.ElectricDevice;
+import com.sun.webkit.Timer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.font.Decoration;
+import java.util.TimerTask;
 
 /**
  *
@@ -50,16 +45,23 @@ import sun.font.Decoration;
 public class Homeassistant1 extends Protocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(Homeassistant1.class.getName());
-
+    CheckPower pow;
+    
     public Homeassistant1() {
         super("Homeassistant1", "/homeassistant1/homeassistant1-manifest.xml");
-        
+        setPollingWait(2000);
     }
 
     @Override
     protected void onRun() {
         LOG.info("Starting Assistan Home");
-        createUsers();
+        //destroyAll();
+        //createUsers();
+        findElectricObject();
+               
+  
+        
+        
         LOG.info("USER CREATE");
     }
 
@@ -90,7 +92,7 @@ public class Homeassistant1 extends Protocol {
         for(int i = 0; i < randomNum; i++){
             
             ProtocolRead event = new ProtocolRead(this, "unknown", "unknown");
-            event.getPayload().addStatement("object.class", "user_troubled");
+            event.getPayload().addStatement("object.class", "User_Troubled");
             event.getPayload().addStatement("object.name", "CFUser" + i);
             event.getPayload().addStatement("object.actAs", "virtual");
             this.notifyEvent(event);
@@ -98,18 +100,18 @@ public class Homeassistant1 extends Protocol {
             Command c = new Command();
             c.setName("Join Custom User Object");
             c.setReceiver("app.objects.create");
-            c.setProperty("object.class", "user_troubled");
+            c.setProperty("object.class", "User_Troubled");
             c.setProperty("object.name", "User_troubled" + i);
             c.setProperty("object.protocol", "unknown");
             c.setProperty("object.address", "unknown");
             c.setProperty("object.actAs", "virtual");
             this.notifyCommand(c);             
         }  
-        /*
+        
         for(int i = 0; i < 5 - randomNum; i++){
             
             ProtocolRead event2 = new ProtocolRead(this, "unknown", "unknown");
-            event2.getPayload().addStatement("object.class", "user");
+            event2.getPayload().addStatement("object.class", "User");
             event2.getPayload().addStatement("object.name", "User" + i);
             event2.getPayload().addStatement("object.actAs", "virtual");
             this.notifyEvent(event2);
@@ -117,12 +119,50 @@ public class Homeassistant1 extends Protocol {
             Command c2 = new Command();
             c2.setName("Join Custom User Object");
             c2.setReceiver("app.objects.create");
-            c2.setProperty("object.class", "user");
+            c2.setProperty("object.class", "User");
             c2.setProperty("object.name", "User" + i);
             c2.setProperty("object.protocol", "unknown");
             c2.setProperty("object.address", "unknown");
             c2.setProperty("object.actAs", "virtual");
-            this.notifyCommand(c2);             
-        } */
+            this.notifyCommand(c2);           
+        } 
+       // moveUsers();
+    }
+    
+    private void destroyAll(){
+        for (EnvObjectLogic object : getApi().things().findAll()) {
+                object.destroy();
+        }
+        
+    }
+    
+    private void findElectricObject(){
+        
+        List<EnvObjectLogic> list = new ArrayList<>();
+        for (EnvObjectLogic object : getApi().things().findAll()) {
+            if (object instanceof ElectricDevice) {
+                
+                list.add(object);
+            }
+        }
+        pow = new CheckPower(list);  
+        pow.countConsumption();
+        pow.setConsumptionPowerMeter();
+
+    }
+    
+    private void moveUsers(){
+        LOG.info("CIAO MAMMA");
+        for (EnvObjectLogic object : getApi().things().findAll()) {
+            if (object instanceof GenericPerson) {
+                GenericPerson person = (GenericPerson) object;
+                LOG.info(person.getPojo().getName());
+                FreedomPoint location = null;
+                location.setX(280);
+                location.setY(336);
+                LocationEvent event = new LocationEvent(this, person.getPojo().getUUID(), location);
+                notifyEvent(event);
+            }
+        }
     }
 }
