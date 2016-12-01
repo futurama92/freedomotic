@@ -26,6 +26,12 @@ import com.freedomotic.things.impl.ElectricDevice;
 import com.freedomotic.model.ds.Config;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
+import com.freedomotic.reactions.Trigger;
+import com.freedomotic.things.EnvObjectLogic;
+import static com.freedomotic.things.impl.Bathtub.BEHAVIOR_WATER;
+import static com.freedomotic.things.impl.Oven.BEHAVIOR_SIMULETED_CONSUMPTION;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class PowerMeter
@@ -37,9 +43,35 @@ public class PowerMeter
     private RangedIntBehaviorLogic power;
     private RangedIntBehaviorLogic energy;
     private RangedIntBehaviorLogic powerFactor;
-
+    private RangedIntBehaviorLogic simuleted_consumption_2;
+    private int simuleted_consumptionValue_2 = 0;
+    protected final static String BEHAVIOR_SIMULETED_CONSUMPTION_2 = "simuleted_consumption_2";
+    
     @Override
     public void init() {
+        
+        simuleted_consumption_2 = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION_2));
+        simuleted_consumption_2.setValue(simuleted_consumptionValue_2);
+        simuleted_consumption_2.addListener(new RangedIntBehaviorLogic.Listener() {
+
+            @Override
+            public void onLowerBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue_2 = simuleted_consumption_2.getMin();
+                executePowerOff(params);
+            }
+
+            @Override
+            public void onUpperBoundValue(Config params, boolean fireCommand) {
+                simuleted_consumptionValue_2 = simuleted_consumption_2.getMax();
+                executePowerOn(params);
+            }
+
+            @Override
+            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
+                    executeSetPowerConsumption(rangeValue, params);
+            }
+        });
+        registerBehavior(simuleted_consumption_2);
         //linking this property with the behavior defined in the XML
         current = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior("current"));
         current.addListener(new RangedIntBehaviorLogic.Listener() {
@@ -213,7 +245,16 @@ public class PowerMeter
 
         super.init();
     }
-
+    
+    
+    public void executeSetPowerConsumption(int rangeValue, Config params) {
+        boolean executed = executeCommand("set waterLevel", params);
+        if (executed) {
+            simuleted_consumption_2.setValue(rangeValue);
+            simuleted_consumptionValue_2 = simuleted_consumption_2.getValue();
+            setChanged(true);
+        }
+    }
     public void executeSetCurrent(int rangeValue, Config params) {
         boolean executed = executeCommand("set current", params);
 
@@ -313,5 +354,13 @@ public class PowerMeter
     @Override
     protected void createTriggers() {
         super.createTriggers();
+        
+        Trigger hard_power_level = new Trigger();
+        hard_power_level.setName("When " + this.getPojo().getName() + " power Level is 95%");
+        hard_power_level.setChannel("app.event.sensor.object.behavior.change");
+        hard_power_level.getPayload().addStatement("object.name", this.getPojo().getName());
+        hard_power_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_SIMULETED_CONSUMPTION_2, "GREATER_THAN", "2800");
+        hard_power_level.setPersistence(false);
+        triggerRepository.create(hard_power_level);
     }
 }
