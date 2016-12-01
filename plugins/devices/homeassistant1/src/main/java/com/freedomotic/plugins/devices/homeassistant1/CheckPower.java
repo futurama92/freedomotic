@@ -21,32 +21,26 @@ public class CheckPower {
     int totalConsumption;
     
     public CheckPower(List <EnvObjectLogic> list){
-        LOG.info("HO FATTO LA CREAZIONE DALLA CLASSE CONSUMPTION");
         this.list = list;
-        totalConsumption = 0;
+        //totalConsumption = 0;
     }
     
     protected void countConsumption(){
-        
-        LOG.info("NUMERO OGGETTI ELETTRICI: " + list.size());
+        totalConsumption = 0;
         for (EnvObjectLogic list1 : list) {
-            LOG.info(list1.getBehavior("simuleted_consumption").getValueAsString());
-            totalConsumption += Integer.parseInt(list1.getBehavior("simuleted_consumption").getValueAsString());
+            if(!list1.getPojo().getName().equals("PowerMeter")){   
+                LOG.info(list1.getBehavior("simuleted_consumption").getValueAsString());
+                totalConsumption += Integer.parseInt(list1.getBehavior("simuleted_consumption").getValueAsString());  
+            } 
+
         }
         LOG.info("Consumo totale: " + totalConsumption + " kW");
-    }
-    
-    public int getCountConsumption(){
-        return totalConsumption;
-    }
-    
-    public void setConsumptionPowerMeter(){
 
-            
         for (EnvObjectLogic list1 : list) {
             if(list1.getPojo().getName().equals("PowerMeter")){
                 ElectricDevice powerMeter = (ElectricDevice)list1;
-                powerMeter.setConsumptionValue(getCountConsumption(), true);
+                Config params = new Config();
+                powerMeter.executeSetPowerConsumption(totalConsumption, params);
                 LOG.info("IN TEORIA HO SETTATO");
             }      
         }
