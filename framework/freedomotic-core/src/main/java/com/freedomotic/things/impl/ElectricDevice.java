@@ -40,6 +40,7 @@ public class ElectricDevice extends EnvObjectLogic {
     private static final Logger LOG = LoggerFactory.getLogger(ElectricDevice.class.getName());
     protected BooleanBehaviorLogic powered;
     protected RangedIntBehaviorLogic consumption;
+    protected RangedIntBehaviorLogic simuleted_consumption_2;
     protected final static String BEHAVIOR_POWERED = "powered";
     protected final static String BEHAVIOR_POWER_CONSUMPTION = "power_consumption";
     protected final static String ACTION_TURN_ON = "turn on";
@@ -123,6 +124,13 @@ public class ElectricDevice extends EnvObjectLogic {
         // Just a change in the virtual thing status
         consumption.setValue(value);
         setChanged(true);
+    }
+    public void executeSetPowerConsumption(int rangeValue, Config params) {
+        boolean executed = executeCommand("set consumption", params);
+        if (executed) {
+            simuleted_consumption_2.setValue(rangeValue);
+            setChanged(true);
+        }
     }
 
     /**
@@ -267,4 +275,6 @@ public class ElectricDevice extends EnvObjectLogic {
         triggerRepository.create(turnsOn);
         triggerRepository.create(turnsOff);
     }
+
+
 }
