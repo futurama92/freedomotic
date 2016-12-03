@@ -28,7 +28,8 @@ public class CheckPower {
     protected void countConsumption(){
         totalConsumption = 0;
         for (EnvObjectLogic list1 : list) {
-            if(!list1.getPojo().getName().equals("PowerMeter")){   
+            if(!list1.getPojo().getName().equals("PowerMeter")){
+                LOG.info("NOME: " + list1.getPojo().getName());
                 LOG.info(list1.getBehavior("simuleted_consumption").getValueAsString());
                 totalConsumption += Integer.parseInt(list1.getBehavior("simuleted_consumption").getValueAsString());  
             } 

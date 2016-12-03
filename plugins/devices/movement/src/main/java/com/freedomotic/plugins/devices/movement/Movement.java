@@ -58,6 +58,7 @@ public class Movement extends Protocol {
      */
     public Movement() {
         super("Movement", "/movement/movement-manifest.xml");
+        setPollingWait(2000);
         
     }
 
@@ -67,10 +68,10 @@ public class Movement extends Protocol {
 
     @Override
     protected void onRun() {
-        //deleteFile(path);
+        deleteFile(path);
         LOG.info("MOVEMENT ON RUN");
-        createUsers();
-        //provaRiccardo();
+        //createUsers();
+        provaRiccardo();
     }
 
 
