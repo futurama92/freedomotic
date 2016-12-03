@@ -62,7 +62,7 @@ public class Homeassistant1 extends Protocol {
   
         
         
-        LOG.info("USER CREATE");
+        //LOG.info("USER CREATE");
     }
 
     @Override
@@ -147,7 +147,6 @@ public class Homeassistant1 extends Protocol {
         }
         pow = new CheckPower(list);  
         pow.countConsumption();
-        pow.setConsumptionPowerMeter();
 
     }
     
