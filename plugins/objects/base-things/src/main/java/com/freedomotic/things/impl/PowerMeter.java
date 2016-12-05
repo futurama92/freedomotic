@@ -44,11 +44,17 @@ public class PowerMeter
     private RangedIntBehaviorLogic energy;
     private RangedIntBehaviorLogic powerFactor;
     private RangedIntBehaviorLogic simuleted_consumption_2;
+    private RangedIntBehaviorLogic simuleted_consumption;
     private int simuleted_consumptionValue_2 = 0;
     protected final static String BEHAVIOR_SIMULETED_CONSUMPTION_2 = "simuleted_consumption_2";
+    protected final static String BEHAVIOR_SIMULETED_CONSUMPTION = "simuleted_consumption";
     
     @Override
     public void init() {
+        
+        simuleted_consumption = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION));
+        simuleted_consumption.setValue(0);
+        registerBehavior(simuleted_consumption);
         
         simuleted_consumption_2 = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_SIMULETED_CONSUMPTION_2));
         simuleted_consumption_2.setValue(simuleted_consumptionValue_2);
@@ -362,5 +368,13 @@ public class PowerMeter
         hard_power_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_SIMULETED_CONSUMPTION_2, "GREATER_THAN", "2800");
         hard_power_level.setPersistence(false);
         triggerRepository.create(hard_power_level);
+        
+        Trigger ok_power_level = new Trigger();
+        ok_power_level.setName("When " + this.getPojo().getName() + " power Level is ok");
+        ok_power_level.setChannel("app.event.sensor.object.behavior.change");
+        ok_power_level.getPayload().addStatement("object.name", this.getPojo().getName());
+        ok_power_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_SIMULETED_CONSUMPTION_2, "LESS_THAN", "2500");
+        ok_power_level.setPersistence(false);
+        triggerRepository.create(ok_power_level);
     }
 }

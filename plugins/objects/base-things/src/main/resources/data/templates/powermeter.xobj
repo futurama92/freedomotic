@@ -16,6 +16,17 @@
       <readOnly>true</readOnly>
     </com.freedomotic.model.object.BooleanBehavior>
 <com.freedomotic.model.object.RangedIntBehavior>
+      <name>simuleted_consumption</name>
+      <description>fake</description>
+      <active>false</active>
+      <priority>-1</priority>
+      <value>0</value>
+      <max>3000</max>
+      <min>0</min>
+      <scale>1</scale>
+      <step>10</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+<com.freedomotic.model.object.RangedIntBehavior>
       <name>simuleted_consumption_2</name>
       <description>Power consumed by device when it's on</description>
       <active>true</active>
