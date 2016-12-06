@@ -1,0 +1,29 @@
+<trigger>
+  <name>When someone goes in the Bathroom 2</name>
+  <description>Someone goes in Bathroom 2 area</description>
+  <uuid>a1b02741-dcbb-4919-a5ec-3aa91b8dac34</uuid>
+  <channel>app.event.sensor.person.zone.enter</channel>
+  <payload>
+    <payload>
+      <statement>
+        <logical>AND</logical>
+        <attribute>zone.name</attribute>
+        <operand>EQUALS</operand>
+        <value>bath_room_2</value>
+      </statement>
+      <statement>
+        <logical>AND</logical>
+        <attribute>person.id</attribute>
+        <operand>EQUALS</operand>
+        <value>ANY</value>
+      </statement>
+    </payload>
+  </payload>
+  <suspensionTime>0</suspensionTime>
+  <hardwareLevel>false</hardwareLevel>
+  <persistence>true</persistence>
+  <delay>0</delay>
+  <priority>0</priority>
+  <maxExecutions>-1</maxExecutions>
+  <numberOfExecutions>0</numberOfExecutions>
+</trigger>

@@ -21,26 +21,23 @@ package com.freedomotic.plugins.devices.movement;
 
 import com.freedomotic.api.EventTemplate;
 import com.freedomotic.api.Protocol;
+import com.freedomotic.environment.EnvironmentLogic;
 import com.freedomotic.events.ProtocolRead;
 import com.freedomotic.exceptions.PluginStartupException;
 import com.freedomotic.exceptions.UnableToExecuteException;
 import com.freedomotic.model.object.EnvObject;
 import com.freedomotic.plugins.TrackingReadFile;
-import com.freedomotic.plugins.fromfile.WorkerThread;
-import com.freedomotic.things.EnvObjectLogic;
-import com.freedomotic.things.ThingRepository;
 import com.freedomotic.reactions.Command;
-import com.freedomotic.things.GenericPerson;
-import com.google.inject.Inject;
+import com.freedomotic.things.EnvObjectLogic;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.font.Decoration;
 
 /**
  *
@@ -51,7 +48,7 @@ public class Movement extends Protocol {
     private static final Logger LOG = LoggerFactory.getLogger(Movement.class.getName());
     private static final String path = "C:\\Users\\ricca\\Documents\\NetBeansProjects\\freedomotic\\framework\\freedomotic-core\\plugins\\devices\\simulation\\data\\motes\\";
     private Boolean powered = true;
-
+    TrackingReadFile mov;
 
     /**
      *
@@ -59,24 +56,35 @@ public class Movement extends Protocol {
     public Movement() {
         super("Movement", "/movement/movement-manifest.xml");
         setPollingWait(2000);
-        
     }
-
-
-
-
-
+    
     @Override
     protected void onRun() {
-        deleteFile(path);
-        LOG.info("MOVEMENT ON RUN");
-        //createUsers();
-        provaRiccardo();
+        //do nothing
     }
 
-
-
-
+    @Override
+    protected void onStart()   {
+        deleteFile(path);
+        LOG.info(Movement.class.getName() + " START");
+        provaRiccardo();
+        mov = new TrackingReadFile();
+        try{
+            mov.start();
+        mov.onStart();}
+        catch(PluginStartupException e){
+            LOG.info("errore");
+        }
+ 
+    }
+    
+    @Override
+    protected void onStop(){
+        LOG.info(Movement.class.getName() + " STOP");
+        mov.stop();
+        mov.destroy();
+        deleteFile(path);
+    }
 
     @Override
     protected void onCommand(Command c)
@@ -96,29 +104,28 @@ public class Movement extends Protocol {
     }
 
     protected void provaRiccardo() {
-        String bedroom_UUID = getApi().environments().findAll().get(0).getRooms().get(0).getPojo().getUuid();
-        String env_UUID = getApi().environments().findAll().get(0).getPojo().getUUID();
-        List<EnvObject> bedroom_objects = new ArrayList<EnvObject>();
-        if(bedroom_UUID != null && !bedroom_UUID.isEmpty()){
-            
-            bedroom_objects = getApi().environments().findOne(env_UUID).getZoneByUuid(bedroom_UUID).getPojo().getObjects();
-            LOG.info("OGGETTI IN CAMERA DA LETTO: " + getApi().environments().findOne(env_UUID).getZoneByUuid(bedroom_UUID).getPojo().getObjects().size());
-            int bed_object_size = bedroom_objects.size();
-            
-            for(int i = 0; i < bed_object_size; i++){
-                if (bedroom_objects.get(i).getType().equals("EnvObject.Person.User")){
-                    LOG.info("PERSONA");
-                    createMovement(bedroom_objects.get(i).getName());
-                }
+        String waiting_room_UUID = null;
+        for (EnvironmentLogic object : getApi().environments().findAll()){
+            if (object.getRooms().get(0).getPojo().getName().equals("waiting_room")){
+                LOG.info(object.getRooms().get(0).getPojo().getName());
+                waiting_room_UUID = object.getRooms().get(0).getPojo().getUuid();
+                LOG.info(waiting_room_UUID);
             }
         }
-        
-        TrackingReadFile mov = new TrackingReadFile();
-        mov.start();
-        try{
-            mov.onStart();
-        } catch (PluginStartupException e) {
-            LOG.error("no start from readfile");
+        String env_UUID = getApi().environments().findAll().get(0).getPojo().getUUID();
+        List<EnvObject> waiting_room_objects = new ArrayList<EnvObject>();
+        if(waiting_room_UUID != null && !waiting_room_UUID.isEmpty()){
+            LOG.info(env_UUID);
+            waiting_room_objects = getApi().environments().findOne(env_UUID).getZoneByUuid(waiting_room_UUID).getPojo().getObjects();
+            LOG.info("OGGETTI IN waiting_room: " + getApi().environments().findOne(env_UUID).getZoneByUuid(waiting_room_UUID).getPojo().getObjects().size());
+            int waiting_room_object_size = waiting_room_objects.size();
+            
+            for(int i = 0; i < waiting_room_object_size; i++){
+                if (waiting_room_objects.get(i).getType().equals("EnvObject.Person.User")){
+                    LOG.info("PERSONA");
+                    createMovement(waiting_room_objects.get(i).getName());
+                }
+            }
         }
     }
 
@@ -129,7 +136,7 @@ public class Movement extends Protocol {
             BufferedWriter b;
             w = new FileWriter(path + name + ".mote");
             b = new BufferedWriter (w);
-            b.write("Bedroom,3000" + "\n" + "Kitchen,4000" + "\n" + "Garage,20000");
+            b.write("waiting_room,20000" + "\n" + "conference_room,15000" + "\n" + "hall_room,3000");
             b.flush();
             LOG.info("File " + name + ".mote create" );
         } catch (IOException e){
@@ -151,6 +158,11 @@ public class Movement extends Protocol {
         }
     }
 
+    private int randomNumber(int max){
+        int min = 1;
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
+    }
     
     //WORK IN PROGRESS
     public void createUsers() {
