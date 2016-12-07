@@ -32,6 +32,8 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -41,7 +43,7 @@ class ReactionConverter implements Converter {
 
     @Inject
     private CommandRepository commandRepository;
-
+     private static final Logger LOG = LoggerFactory.getLogger(ReactionConverter.class.getName());
     /**
      *
      * @param o
@@ -158,6 +160,10 @@ class ReactionConverter implements Converter {
         while (reader.hasMoreChildren()) {
             reader.moveDown(); //move down to command
             List<Command> commands = commandRepository.findByName(reader.getValue().trim());
+            for(int i = 0; i < commands.size(); i++){
+                LOG.info("RICCARDO PROVA CODICE: " + commands.get(i).getName());
+            }
+                
             if (!commands.isEmpty()) {
                 list.add(commands.get(0));
             } else {

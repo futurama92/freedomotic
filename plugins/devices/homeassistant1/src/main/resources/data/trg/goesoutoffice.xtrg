@@ -11,17 +11,11 @@
         <operand>EQUALS</operand>
         <value>Office</value>
       </statement>
-      <statement>
+       <statement>
         <logical>AND</logical>
-        <attribute>person.id</attribute>
+        <attribute>object.type</attribute>
         <operand>EQUALS</operand>
-        <value>ANY</value>
-      </statement>
-	  <statement>
-        <logical>AND</logical>
-        <attribute>object.behavior.BEHAVIOR_TROUBLED</attribute>
-        <operand>EQUALS</operand>
-        <value>troubled</value>
+        <value>EnvObject.Person.User</value>
       </statement>
     </payload>
   </payload>

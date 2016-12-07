@@ -99,6 +99,14 @@ public class BrightnessShield extends ElectricDevice {
         shield_50.setProperty("behavior", BEHAVIOR_SHIELD);
         shield_50.setProperty("value", "50");
         
+        Command shield_0 = new Command();
+        shield_0.setName("Set " + getPojo().getName() + " shield to 0%");
+        shield_0.setDescription("Set " + getPojo().getName() + " shield valure to 0%");
+        shield_0.setReceiver("app.events.sensors.behavior.request.objects");
+        shield_0.setProperty("object", getPojo().getName());
+        shield_0.setProperty("behavior", BEHAVIOR_SHIELD);
+        shield_0.setProperty("value", "0");
+        
         Command increase_shield = new Command();
         increase_shield.setName("Increase " + getPojo().getName() + " shield value");
         increase_shield.setDescription("Increase " + getPojo().getName() + " to next value");
@@ -129,6 +137,7 @@ public class BrightnessShield extends ElectricDevice {
         commandRepository.create(decrease_shield);
         commandRepository.create(increase_shield);
         commandRepository.create(shield_50);
+        commandRepository.create(shield_0);
     }
     
     @Override

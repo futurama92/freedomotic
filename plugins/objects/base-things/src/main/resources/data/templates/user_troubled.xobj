@@ -74,6 +74,7 @@
   <triggers>
     <property name="" value="powered"/>
     <property name="" value="activity"/>
+    <property name="" value="troubled"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

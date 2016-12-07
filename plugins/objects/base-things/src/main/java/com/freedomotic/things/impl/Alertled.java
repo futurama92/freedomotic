@@ -22,6 +22,8 @@ package com.freedomotic.things.impl;
 import com.freedomotic.model.ds.Config;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.behaviors.RangedIntBehaviorLogic;
+import com.freedomotic.reactions.Command;
+import static com.freedomotic.things.impl.Light.BEHAVIOR_BRIGHTNESS;
 
 /**
  *
@@ -77,6 +79,13 @@ public class Alertled extends ElectricDevice {
     @Override
     protected void createCommands() {
         super.createCommands();
+        Command g = new Command();
+        g.setName("Turn on " + getPojo().getName());
+        g.setDescription("set its brightness to the value in the event");
+        g.setReceiver("app.events.sensors.behavior.request.objects");
+        g.setProperty("object", "@event.object.name");
+        g.setProperty("behavior", BEHAVIOR_BRIGHTNESS);
+        g.setProperty("value", "@event.value");
 
     }
     

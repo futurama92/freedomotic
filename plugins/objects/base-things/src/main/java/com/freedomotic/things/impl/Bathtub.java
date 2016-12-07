@@ -182,7 +182,7 @@ public class Bathtub extends EnvObjectLogic {
         
                     
         Trigger hard_water_level = new Trigger();
-        hard_water_level.setName("When " + this.getPojo().getName() + " water Level is 95%");
+            hard_water_level.setName("When " + this.getPojo().getName() + " water Level is 95%");
         hard_water_level.setChannel("app.event.sensor.object.behavior.change");
         hard_water_level.getPayload().addStatement("object.name", this.getPojo().getName());
         hard_water_level.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_WATER, "GREATER_THAN", "94");
