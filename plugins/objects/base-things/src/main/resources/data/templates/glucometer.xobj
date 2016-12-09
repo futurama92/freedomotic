@@ -1,0 +1,64 @@
+<object>
+  <name>Glucometer</name>
+  <description>A glucometer to measure glycemia</description>
+  <actAs>virtual</actAs>
+  <type>EnvObject.ElectricDevice.Glucometer</type>
+  <hierarchy>com.freedomotic.things.impl.Glucometer</hierarchy>
+  <protocol>unknown</protocol>
+  <phisicalAddress>unknown</phisicalAddress>
+  <behaviors>
+    <com.freedomotic.model.object.BooleanBehavior>
+      <name>powered</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>false</value>
+    </com.freedomotic.model.object.BooleanBehavior>
+    <com.freedomotic.model.object.BooleanBehavior>
+      <name>takeThePills</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>false</value>
+    </com.freedomotic.model.object.BooleanBehavior>
+    <com.freedomotic.model.object.RangedIntBehavior>
+      <name>glicemia</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>60</value>
+      <max>150</max>
+      <min>40</min>
+      <step>1</step>
+    </com.freedomotic.model.object.RangedIntBehavior>
+  </behaviors>
+  <representation>
+    <view>
+      <tangible>true</tangible>
+      <intersecable>false</intersecable>
+      <offset x="0" y="0"/>
+      <rotation>0.0</rotation>
+      <icon>glucometer.png</icon>
+      <fillColor>#000000</fillColor>
+      <textColor>#000000</textColor>
+      <borderColor>#000000</borderColor>
+      <shape class="polygon">
+        <point x="0" y="0"/>
+        <point x="64" y="0"/>
+        <point x="64" y="64"/>
+        <point x="0" y="64"/>
+      </shape>
+    </view>
+  </representation>
+  <actions>
+    <property name="turn off" value="Execute it successfully"/>
+    <property name="turn on" value="Execute it successfully"/>
+    <property name="set glicemia" value="Execute it successfully"/>
+  </actions>
+  <triggers>
+    <property name="" value="powered"/>
+    <property name="" value="takeThePills"/>
+    <property name="" value="glicemia"/>
+  </triggers>
+  <currentRepresentation>0</currentRepresentation>
+</object>

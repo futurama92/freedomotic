@@ -28,6 +28,7 @@ import com.freedomotic.behaviors.RangedIntBehaviorLogic;
 import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.ListBehavior;
 import com.freedomotic.reactions.Command;
+import com.freedomotic.reactions.Trigger;
 import static com.freedomotic.things.impl.Fridge.BEHAVIOR_SIMULETED_CONSUMPTION;
 
 /**
@@ -258,6 +259,16 @@ public class Oven extends ElectricDevice {
         decreaseOvenTemp.setProperty("object", getPojo().getName());
         decreaseOvenTemp.setProperty("behavior", BEHAVIOR_OVEN_TEMPERATURE);
         decreaseOvenTemp.setProperty("value", Behavior.VALUE_PREVIOUS);
+        
+        Command timer_0 = new Command();
+        timer_0.setName("Turn " + getPojo().getName() + " to 0 power");
+        timer_0.setDescription("Stop " + getPojo().getName() + " consumption");
+        timer_0.setReceiver("app.events.sensors.behavior.request.objects");
+        timer_0.setProperty("object", getPojo().getName());
+        timer_0.setProperty("behavior", BEHAVIOR_SIMULETED_CONSUMPTION);
+        timer_0.setProperty("value", "0");
+        commandRepository.create(timer_0);
+        
 
 
         //TODO: add missing commands!
@@ -269,5 +280,12 @@ public class Oven extends ElectricDevice {
     @Override
     protected void createTriggers() {
         super.createTriggers();
+        Trigger trigger_timer_0 = new Trigger();
+        trigger_timer_0.setName("When " + this.getPojo().getName() + " timer goes to 0");
+        trigger_timer_0.setChannel("app.event.sensor.object.behavior.change");
+        trigger_timer_0.getPayload().addStatement("object.name", this.getPojo().getName());
+        trigger_timer_0.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OVEN_TIMER, "EQUALS", "0");
+        trigger_timer_0.setPersistence(false);
+        triggerRepository.create(trigger_timer_0);
     }
 }
