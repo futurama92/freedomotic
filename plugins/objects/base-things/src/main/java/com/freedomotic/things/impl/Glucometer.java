@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and takeThePills the template in the editor.
  */
 package com.freedomotic.things.impl;
 
@@ -13,7 +13,6 @@ import com.freedomotic.model.object.BooleanBehavior;
 import com.freedomotic.model.object.RangedIntBehavior;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.reactions.Trigger;
-import static com.freedomotic.things.impl.ElectricDevice.BEHAVIOR_POWERED;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,112 +24,104 @@ public class Glucometer extends ElectricDevice {
     private static final Logger LOG = LoggerFactory.getLogger(Glucometer.class.getName());
     private RangedIntBehaviorLogic glicemia;
     private BooleanBehaviorLogic takeThePills;
-    private int glicemiaValue = 80;
+    private int glicemiaStoredValue = 80;
     private final static String BEHAVIOR_GLICEMIA = "glicemia";
     private final static String BEHAVIOR_TAKETHEPILLS =  "takeThePills";
     @Override
     public void init() {
         
+        glicemia = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_GLICEMIA));
+        glicemia.setValue(glicemiaStoredValue);
+        glicemia.addListener(new RangedIntBehaviorLogic.Listener() {
+            
+            @Override
+            public void onLowerBoundValue(Config params, boolean fireCommand) {
+                glicemiaStoredValue = glicemia.getMin();
+                executePowerOff(params);
+            }
+            
+            @Override
+            public void onUpperBoundValue(Config params, boolean fireCommand) {
+                glicemiaStoredValue = glicemia.getMax();
+                executePowerOn(params);
+            }
+            
+            @Override
+            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
+                executeGlicemia(rangeValue, params);
+            }
+        });
+        //register this behavior to the superclass to make it visible to it
+        registerBehavior(glicemia);
+        
         takeThePills = new BooleanBehaviorLogic((BooleanBehavior) getPojo().getBehavior(BEHAVIOR_TAKETHEPILLS));
-        //add a listener to values changes
         takeThePills.addListener(new BooleanBehaviorLogic.Listener() {
             @Override
             public void onTrue(Config params, boolean fireCommand) {
-                if (fireCommand) {
-                    executePowerOn(params); //executes a turn on command and then sets the object behavior to on
-                } else {
-                    setOn(); //sets the object behavior to on as a result from a notified value
-                }
+                //takeThePills = true
+                setOn(params);
             }
 
             @Override
             public void onFalse(Config params, boolean fireCommand) {
-                if (fireCommand) {
-                    executePowerOff(params); //executes a turn off command and then sets the object behavior to off
-                } else {
-                    setOff(); //sets the object behavior to off as a result from a notified value
-                }
+                //takeThePills = false -> not takeThePills
+                setOff(params);
             }
         });
-        //register this behavior to the superclass to make it visible to it
-        registerBehavior(takeThePills);
         
-        glicemia = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_GLICEMIA));
-        glicemia.setValue(glicemiaValue);
-        glicemia.addListener(new RangedIntBehaviorLogic.Listener() {
-            @Override
-            public void onLowerBoundValue(Config params, boolean fireCommand) {
-                glicemiaValue = glicemia.getMax();
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void onUpperBoundValue(Config params, boolean fireCommand) {
-                glicemiaValue = glicemia.getMin();
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
-                executeSet(rangeValue, params, BEHAVIOR_GLICEMIA);
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-
-        registerBehavior(glicemia);
+        registerBehavior(takeThePills);
         super.init();
     }
     
-    public void executeSet(int rangeValue, Config params, String object) {
-        boolean executed = executeCommand("set glicemia", params);
-        if (executed) {
-            if (object.equals("glicemia")){
-                glicemia.setValue(rangeValue);
-                glicemiaValue = glicemia.getValue();
-                setChanged(true);
-            }
-        }
-    }
     
-    @Override
-    public void executePowerOn(Config params) {
-        boolean executed = executeCommand(ACTION_TURN_ON, params);
+    protected void setOff(Config params) {
+        boolean executed = executeCommand("turn off", params); //executes the developer level command associated with 'set brightness' action
 
         if (executed) {
-            setOn();
-        }
-    }
-    
-    @Override
-    public void executePowerOff(Config params) {
-        boolean executed = executeCommand(ACTION_TURN_OFF, params);
-
-        if (executed) {
-            setOff();
-        }
-    }
-    
-    public void setOn() {
-        LOG.info("Setting behavior ''takeThePills'' of object ''{}'' to true", getPojo().getName());
-
-        //if not already on
-        if (takeThePills.getValue() != true) {
-            takeThePills.setValue(true);
-            setChanged(true);
-        }
-    }
-
-    public void setOff() {
-        LOG.info("Setting behavior ''takeThePills'' of object ''{}'' to false", getPojo().getName());
-
-        //if not already off
-        if (takeThePills.getValue() != false) {
             takeThePills.setValue(false);
             setChanged(true);
         }
     }
+
+    protected void setOn(Config params) {
+        boolean executed = executeCommand("turn onn", params); //executes the developer level command associated with 'set brightness' action
+        if (executed) {
+            takeThePills.setValue(true);
+            setChanged(true);
+        }
+    }
+    @Override
+    public void executePowerOff(Config params) {
+        // when a light is "powered off" its glicemia is set to the minValue but the current value is stored
+        glicemia.setValue(glicemia.getMin());
+        // executeCommand the body of the super implementation. The super call
+        // must be the last call as it executes setChanged(true)
+        super.executePowerOff(params);
+    }
     
+    @Override
+    public void executePowerOn(Config params) {
+        // when a light is "powered on" its glicemia is set to the stored value if this is greater than the minValue
+        if (glicemiaStoredValue > glicemia.getMin()) {
+            glicemia.setValue(glicemiaStoredValue);
+        } else {
+            glicemia.setValue(glicemia.getMax());
+        }
+        // executeCommand the body of the super implementation. The super call
+        // must be the last call as it executes setChanged(true)
+        super.executePowerOn(params);
+    }
     
+    public void executeGlicemia(int rangeValue, Config params) {
+        boolean executed = executeCommand("set glicemia", params); //executes the developer level command associated with 'set glicemia' action
+
+        if (executed) {
+            powered.setValue(true);
+            glicemia.setValue(rangeValue);
+            glicemiaStoredValue = glicemia.getValue();
+            setChanged(true);
+        }
+    }
     @Override
     protected void createCommands() {
         super.createCommands();

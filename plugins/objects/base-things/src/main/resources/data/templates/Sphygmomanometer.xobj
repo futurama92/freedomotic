@@ -14,6 +14,13 @@
       <priority>-1</priority>
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
+    <com.freedomotic.model.object.BooleanBehavior>
+      <name>takeThePills_s</name>
+      <description></description>
+      <active>true</active>
+      <priority>-1</priority>
+      <value>false</value>
+    </com.freedomotic.model.object.BooleanBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
       <name>maximumPressure</name>
       <description></description>
@@ -32,16 +39,6 @@
       <value>40</value>
       <max>120</max>
       <min>40</min>
-      <step>1</step>
-    </com.freedomotic.model.object.RangedIntBehavior>
-    <com.freedomotic.model.object.RangedIntBehavior>
-      <name>batteryLevel</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>90</value>
-      <max>100</max>
-      <min>0</min>
       <step>1</step>
     </com.freedomotic.model.object.RangedIntBehavior>
   </behaviors>
@@ -64,8 +61,14 @@
     </view>
   </representation>
   <actions>
+    <property name="turn off" value="Execute it successfully"/>
+    <property name="turn on" value="Execute it successfully"/>
   </actions>
   <triggers>
+    <property name="" value="powered"/>
+    <property name="" value="maximumPressure"/>
+    <property name="" value="minimumPressure"/>
+    <property name="" value="takeThePills_s"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

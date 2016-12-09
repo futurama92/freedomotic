@@ -1,9 +1,9 @@
 <object>
-  <name>Glucometer</name>
-  <description>A glucometer to measure glycemia</description>
+  <name>HeartSensor</name>
+  <description>Sensor for bmp heart ECG anomalies</description>
   <actAs>virtual</actAs>
-  <type>EnvObject.ElectricDevice.Glucometer</type>
-  <hierarchy>com.freedomotic.things.impl.Glucometer</hierarchy>
+  <type>EnvObject.ElectricDevice.HeartSensor</type>
+  <hierarchy>com.freedomotic.things.impl.HeartSensor</hierarchy>
   <protocol>unknown</protocol>
   <phisicalAddress>unknown</phisicalAddress>
   <behaviors>
@@ -14,22 +14,15 @@
       <priority>-1</priority>
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
-    <com.freedomotic.model.object.BooleanBehavior>
-      <name>takeThePills</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>false</value>
-    </com.freedomotic.model.object.BooleanBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
-      <name>glicemia</name>
+      <name>bmpHeart</name>
       <description></description>
       <active>true</active>
       <priority>-1</priority>
-      <value>60</value>
+      <value>50</value>
       <max>150</max>
-      <min>40</min>
-      <step>1</step>
+      <min>0</min>
+      <step>2</step>
     </com.freedomotic.model.object.RangedIntBehavior>
   </behaviors>
   <representation>
@@ -38,7 +31,7 @@
       <intersecable>false</intersecable>
       <offset x="0" y="0"/>
       <rotation>0.0</rotation>
-      <icon>glucometer.png</icon>
+      <icon>heartsensor.png</icon>
       <fillColor>#000000</fillColor>
       <textColor>#000000</textColor>
       <borderColor>#000000</borderColor>
@@ -53,13 +46,12 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
+    <property name="set bmpHeart" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="takeThePills_s"/>
-    <property name="" value="maximumPressure"/>
-    <property name="" value="minimumPressure"/>
-    <property name="" value="batteryLevel"/>
+    <property name="" value="bmpHeart"/>
+    <property name="" value="takeOxi"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>
