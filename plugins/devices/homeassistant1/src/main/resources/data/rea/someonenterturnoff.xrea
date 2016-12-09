@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<reaction>
-  <trigger>When someone goes out of the Office</trigger>
-  <sequence>
-    <command>Turn off Alertled</command>
-  </sequence>
-</reaction>

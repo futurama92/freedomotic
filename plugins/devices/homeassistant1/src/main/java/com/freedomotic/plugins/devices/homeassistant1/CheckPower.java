@@ -32,17 +32,14 @@ public class CheckPower {
             LOG.info(list1.getBehavior("simuleted_consumption").getValueAsString());
             totalConsumption += Integer.parseInt(list1.getBehavior("simuleted_consumption").getValueAsString());  
             } catch (NullPointerException e){
-                LOG.info("Non considerato");
             }
         }
-        LOG.info("Consumo totale: " + totalConsumption + " kW");
 
         for (EnvObjectLogic list1 : list) {
             if(list1.getPojo().getName().equals("PowerMeter")){
                 ElectricDevice powerMeter = (ElectricDevice)list1;
                 Config params = new Config();
                 powerMeter.executeSetPowerConsumption(totalConsumption, params);
-                LOG.info("IN TEORIA HO SETTATO");
             }      
         }
     }
