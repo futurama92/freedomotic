@@ -1,0 +1,9 @@
+<config>
+    <properties>
+        <property name="description"                       value="Level 2 Home Assistant"/>
+        <property name="category"                       value="devel"/>
+        <property name="short-name"                       value="homeassistant2"/>
+    </properties>
+</config>
+
+                
