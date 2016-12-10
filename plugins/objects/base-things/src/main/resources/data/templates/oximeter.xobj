@@ -53,11 +53,11 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
-    <property name="set bmpHeart" value="Execute it successfully"/>
+    <property name="set oximeter" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="bmpHeart"/>
+    <property name="" value="oximeter"/>
     <property name="" value="takeOxi"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
