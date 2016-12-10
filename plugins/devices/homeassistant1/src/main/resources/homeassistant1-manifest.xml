@@ -1,6 +1,6 @@
 <config>
     <properties>
-        <property name="description"                       value="A various homeassistant1"/>
+        <property name="description"                       value="Level 1 Home Assistant"/>
         <property name="category"                       value="devel"/>
         <property name="short-name"                       value="homeassistant1"/>
     </properties>
