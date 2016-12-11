@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When Oximeter value is anomalus 2</trigger>
+  <sequence>
+    <command>Call 118 with SocialAlarmDevice</command>
+  </sequence>
+</reaction>

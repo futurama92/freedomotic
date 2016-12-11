@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When Oven timer goes to 0</trigger>
+  <sequence>
+    <command>Turn off Oven</command>
+    <command>Turn Oven to 0 power</command>
+  </sequence>
+</reaction>

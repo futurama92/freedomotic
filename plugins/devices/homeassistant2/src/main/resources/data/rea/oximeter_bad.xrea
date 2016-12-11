@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When Oximeter value is anomalus</trigger>
+  <sequence>
+    <command>Take oximeter oxigen on</command>
+  </sequence>
+</reaction>

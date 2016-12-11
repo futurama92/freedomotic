@@ -1,0 +1,14 @@
+<command>
+    <name>Turn Oven to 0 power</name>
+    <receiver>app.events.sensors.behavior.request.objects</receiver>
+    <description>power 0</description>
+    <delay>0</delay>
+    <timeout>0</timeout>
+    <properties>
+        <properties>
+            <property name="object" value="Oven"/>
+            <property name="behavior" value="simuleted_consumption"/>
+            <property name="value" value="0"/>
+        </properties>
+    </properties>
+</command>
