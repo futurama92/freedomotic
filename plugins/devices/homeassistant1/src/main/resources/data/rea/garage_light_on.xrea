@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When someone goes in the Garage</trigger>
+  <sequence>
+    <command>Turn Garage light on</command>
+  </sequence>
+</reaction>

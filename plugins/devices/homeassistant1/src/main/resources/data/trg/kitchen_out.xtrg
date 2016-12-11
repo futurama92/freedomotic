@@ -1,6 +1,6 @@
 <trigger>
-  <name>When someone goes out of the Office</name>
-  <description>Someone goes out of the Office area</description>
+  <name>When someone goes out of the Kitchen</name>
+  <description>Someone goes out of the bedroom</description>
   <uuid>a1b02741-dcbb-4919-a5ec-3aa91b8dac34</uuid>
   <channel>app.event.sensor.person.zone.exit</channel>
   <payload>
@@ -9,13 +9,13 @@
         <logical>AND</logical>
         <attribute>zone.name</attribute>
         <operand>EQUALS</operand>
-        <value>Office</value>
+        <value>Kitchen</value>
       </statement>
        <statement>
         <logical>AND</logical>
-        <attribute>object.type</attribute>
+        <attribute>person.id</attribute>
         <operand>EQUALS</operand>
-        <value>EnvObject.Person.User</value>
+        <value>ANY</value>
       </statement>
     </payload>
   </payload>

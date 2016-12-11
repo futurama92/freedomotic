@@ -1,0 +1,14 @@
+<command>
+    <name>Take oximeter oxigen off</name>
+    <receiver>app.events.sensors.behavior.request.objects</receiver>
+    <description>Take oximeter oxigen off</description>
+    <delay>0</delay>
+    <timeout>0</timeout>
+    <properties>
+        <properties>
+            <property name="object" value="Glucometer"/>
+            <property name="behavior" value="takeOxi"/>
+            <property name="value" value="false"/>
+        </properties>
+    </properties>
+</command>

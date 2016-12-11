@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When someone goes out of the Bathroom</trigger>
+  <sequence>
+    <command>Turn Bathroom light off</command>
+  </sequence>
+</reaction>

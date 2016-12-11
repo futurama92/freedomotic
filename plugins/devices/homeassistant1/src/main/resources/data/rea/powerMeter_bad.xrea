@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When PowerMeter power Level is 95%</trigger>
+  <sequence>
+    <command>Turn on Alertled</command>
+  </sequence>
+</reaction>

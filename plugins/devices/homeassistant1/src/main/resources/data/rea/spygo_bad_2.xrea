@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When Sphygmomanometer value is anomalous_2</trigger>
+  <sequence>
+    <command>Turn Sphygmomanometer sensors on</command>
+  </sequence>
+</reaction>
