@@ -1,15 +1,15 @@
 <trigger>
-  <name>When someone goes in the Office</name>
-  <description>Someone goes in the bedroom</description>
+  <name>When someone goes out of the Garage</name>
+  <description>Someone goes out of the bedroom</description>
   <uuid>a1b02741-dcbb-4919-a5ec-3aa91b8dac34</uuid>
-  <channel>app.event.sensor.person.zone.enter</channel>
+  <channel>app.event.sensor.person.zone.exit</channel>
   <payload>
     <payload>
       <statement>
         <logical>AND</logical>
         <attribute>zone.name</attribute>
         <operand>EQUALS</operand>
-        <value>Office</value>
+        <value>Garage</value>
       </statement>
        <statement>
         <logical>AND</logical>

@@ -1,0 +1,14 @@
+<command>
+  <name>Turn Bathroom light off</name>
+  <receiver>app.events.sensors.behavior.request.objects</receiver>
+  <description>turns on an object called livingroom light</description>
+  <editable>true</editable>
+  <properties>
+    <properties>
+      <property name="behavior" value="powered"/>
+      <property name="value" value="false"/>
+      <property name="object" value="Bathroom_light"/>
+    </properties>
+    <tuples/>
+  </properties>
+</command>
