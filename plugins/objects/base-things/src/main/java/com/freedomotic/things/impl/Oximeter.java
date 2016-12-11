@@ -161,10 +161,10 @@ public class Oximeter extends ElectricDevice{
         triggerRepository.create(anomaly_oxi);
         
         Trigger very_anomaly_oxi = new Trigger();
-        very_anomaly_oxi.setName("When " + this.getPojo().getName() + " value is very anomalus");
+        very_anomaly_oxi.setName("When " + this.getPojo().getName() + " value is anomalus 2");
         very_anomaly_oxi.setChannel("app.event.sensor.object.behavior.change");
         very_anomaly_oxi.getPayload().addStatement("object.name", this.getPojo().getName());
-        very_anomaly_oxi.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_OXIMETER, "LESS_THAN", "90");
+        very_anomaly_oxi.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OXIMETER, "LESS_THAN", "90");
         very_anomaly_oxi.setPersistence(false);
         triggerRepository.create(very_anomaly_oxi);
         super.createTriggers();

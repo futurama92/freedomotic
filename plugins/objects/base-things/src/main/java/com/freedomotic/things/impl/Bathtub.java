@@ -147,15 +147,6 @@ public class Bathtub extends EnvObjectLogic {
         commandRepository.create(b);
         commandRepository.create(c);
         
-        Command d = new Command();
-        d.setName("Turn " + getPojo().getName() + " off");
-        d.setDescription("Stop " + getPojo().getName() + " waterLevel");
-        d.setReceiver("app.events.sensors.behavior.request.objects");
-        d.setProperty("object", getPojo().getName());
-        d.setProperty("behavior", "powered");
-        d.setProperty("value", "false");
-        commandRepository.create(d);
-        
         Command block_water = new Command();
         block_water.setName("Turn " + getPojo().getName() + " off");
         block_water.setDescription("Stop " + getPojo().getName() + " waterLevel");
