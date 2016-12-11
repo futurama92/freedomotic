@@ -1,0 +1,15 @@
+<command>
+  <name>Turn on all light in conference room</name>
+  <receiver>app.events.sensors.behavior.request.objects</receiver>
+  <description>Turn on all light in conference roomt</description>
+  <editable>true</editable>
+  <properties>
+    <properties>
+      <property name="behavior" value="powered"/>
+      <property name="value" value="true"/>
+      <property name="object.class" value="EnvObject.ElectricDevice.Light"/>
+      <property name="object.zone" value="conference_room"/>
+    </properties>
+    <tuples/>
+  </properties>
+</command>

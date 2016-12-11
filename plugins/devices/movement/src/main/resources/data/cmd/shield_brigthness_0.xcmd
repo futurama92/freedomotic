@@ -1,0 +1,15 @@
+<command>
+    <name>Set BrightnessShield shield to 0%</name>
+    <receiver>app.events.sensors.behavior.request.objects</receiver>
+    <description>Turn led sensors on</description>
+    <delay>0</delay>
+    <timeout>0</timeout>
+    <properties>
+        <properties>
+            <property name="object" value="BrightnessShield"/>
+            <property name="behavior" value="shield"/>
+            <property name="value" value="0"/>
+        </properties>
+    </properties>
+</command>
+

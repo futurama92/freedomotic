@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When someone goes out of the Conference Room</trigger>
+  <sequence>
+    <command>Turn off all light in conference room</command>
+    <command>Turn off all Tablets</command>
+    <command>Turn off TV</command>
+    <command>Set BrightnessShield shield to 0%</command>
+  </sequence>
+</reaction>
