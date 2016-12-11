@@ -1,0 +1,14 @@
+<command>
+  <name>Turn off TV-1</name>
+  <receiver>app.events.sensors.behavior.request.objects</receiver>
+  <description>Turn off TV</description>
+  <editable>true</editable>
+  <properties>
+    <properties>
+      <property name="behavior" value="powered"/>
+      <property name="value" value="false"/>
+      <property name="object" value="TV-1"/>
+    </properties>
+    <tuples/>
+  </properties>
+</command>

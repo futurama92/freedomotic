@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When someone goes out of the Waiting Room</trigger>
+  <sequence>
+    <command>Turn off all light in waiting room</command>
+    <command>Turn off all Tablets in waiting room</command>
+    <command>Turn off TV-1</command>
+  </sequence>
+</reaction>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reaction>
+  <trigger>When someone goes in the Waiting Room</trigger>
+  <sequence>
+    <command>Turn on all light in waiting room</command>
+    <command>Turn on all Tablets in waiting room</command>
+    <command>Turn on TV-1</command>
+    <command>Set E-paint next Image(china)</command>
+    <command>Set E-paint-1 next Image(china)</command>
+  </sequence>
+</reaction>
