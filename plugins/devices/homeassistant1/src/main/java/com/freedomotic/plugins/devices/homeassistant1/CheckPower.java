@@ -27,6 +27,8 @@ public class CheckPower {
     
     protected void countConsumption(){
         totalConsumption = 0;
+        
+        //select consumption behavior and sum
         for (EnvObjectLogic list1 : list) {            
             try{
             LOG.info(list1.getBehavior("simuleted_consumption").getValueAsString());
