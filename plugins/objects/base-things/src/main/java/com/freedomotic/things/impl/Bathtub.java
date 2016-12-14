@@ -33,7 +33,7 @@ import com.freedomotic.things.EnvObjectLogic;
  *
  * @author Enrico Nicoletti
  */
-public class Bathtub extends EnvObjectLogic {
+public class Bathtub extends ElectricDevice {
     
     private ListBehaviorLogic waterType;
     private RangedIntBehaviorLogic waterLevel;

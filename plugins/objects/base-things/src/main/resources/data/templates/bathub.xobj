@@ -56,10 +56,11 @@
     </view>
   </representation>
   <actions>
-    <property name="set water level" value="Execute it successfully"/>
+    <property name="set waterLevel" value="Execute it successfully"/>
   </actions>
   <triggers>
-    <property name="" value="waterLeel"/>
+    <property name="" value="powered"/>
+    <property name="" value="waterLevel"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>
