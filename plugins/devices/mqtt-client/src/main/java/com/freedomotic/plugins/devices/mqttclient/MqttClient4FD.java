@@ -32,11 +32,14 @@ import com.freedomotic.api.Protocol;
 import com.freedomotic.exceptions.PluginStartupException;
 import com.freedomotic.exceptions.UnableToExecuteException;
 import com.freedomotic.reactions.Command;
+import com.freedomotic.things.EnvObjectLogic;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MqttClient4FD extends Protocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(MqttClient4FD.class.getName());
-
+    List<String> subscribed_list = new ArrayList<String>();
     private String BROKER_URL = configuration.getStringProperty("broker-url", "tcp://test.mosquitto.org:1883");
     private String CLIENT_ID = configuration.getStringProperty("client-id", "freedomotic");
     private String AUTHENTICATION_ENABLED = configuration.getStringProperty("authentication-enabled", "false");
@@ -50,7 +53,7 @@ public class MqttClient4FD extends Protocol {
     public MqttClient4FD() {
         //every plugin needs a name and a manifest XML file
         super("MQTT Client", "/mqtt-client/mqtt-client-manifest.xml");
-        setPollingWait(-1); //onRun() disabled
+        setPollingWait(2000); //onRun() disabled
     }
 
     @Override
@@ -64,6 +67,13 @@ public class MqttClient4FD extends Protocol {
 
     @Override
     protected void onRun() {
+        LOG.info("Check subscribed topic");
+        for(EnvObjectLogic obj : getApi().things().findAll()){
+            if (!subscribed_list.contains(obj.getPojo().getName())){
+                    subscribed_list.add(obj.getPojo().getName());
+                    mqttClient.subscribeTopic(obj.getPojo().getName());
+            }
+        }
     }
 
     @Override
@@ -75,6 +85,11 @@ public class MqttClient4FD extends Protocol {
             // subscribe all topics in <tuples></tuples> section
             for (int i = 0; i < configuration.getTuples().size(); i++) {
                 mqttClient.subscribeTopic(configuration.getTuples().getProperty(i, "topic-name"));
+            }
+            for(EnvObjectLogic obj : getApi().things().findAll()){
+                mqttClient.subscribeTopic(obj.getPojo().getName());
+                 subscribed_list.add(obj.getPojo().getName());
+                
             }
         } else {
             throw new PluginStartupException("Not connected. Please check");
