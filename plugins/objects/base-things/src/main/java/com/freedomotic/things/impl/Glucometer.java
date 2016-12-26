@@ -75,7 +75,7 @@ public class Glucometer extends ElectricDevice {
     
     
     protected void setOff(Config params) {
-        boolean executed = executeCommand("turn off", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("take pill", params); //executes the developer level command associated with 'set brightness' action
 
         if (executed) {
             takeThePills.setValue(false);
@@ -84,7 +84,7 @@ public class Glucometer extends ElectricDevice {
     }
 
     protected void setOn(Config params) {
-        boolean executed = executeCommand("turn onn", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("don't take pill", params); //executes the developer level command associated with 'set brightness' action
         if (executed) {
             takeThePills.setValue(true);
             setChanged(true);

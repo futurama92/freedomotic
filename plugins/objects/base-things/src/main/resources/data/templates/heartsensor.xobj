@@ -15,7 +15,7 @@
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
-      <name>bmpHeart</name>
+      <name>bmpheart</name>
       <description></description>
       <active>true</active>
       <priority>-1</priority>
@@ -46,12 +46,11 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
-    <property name="set bmpHeart" value="Execute it successfully"/>
+    <property name="set bmpheart" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="bmpHeart"/>
-    <property name="" value="takeOxi"/>
+    <property name="" value="bmpheart"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

@@ -515,9 +515,19 @@
   </representation>
   <actions>
      <property name="set brightness" value="Execute it successfully"/>
+     <property name="set conditions" value="Execute it successfully"/>
+     <property name="set conditions_2" value="Execute it successfully"/>
+     <property name="set conditions_3" value="Execute it successfully"/>
+     <property name="set conditions_4" value="Execute it successfully"/>
+     <property name="set conditions_5" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="brightness"/>
+    <property name="" value="conditions"/>
+    <property name="" value="conditions_2"/>
+    <property name="" value="conditions_3"/>
+    <property name="" value="conditions_4"/>
+    <property name="" value="conditions_5"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

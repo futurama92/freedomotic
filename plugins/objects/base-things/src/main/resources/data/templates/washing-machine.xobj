@@ -139,6 +139,7 @@
     <property name="set spinning RPM" value="Execute it successfully"/>
     <property name="set washing cycle" value="Execute it successfully"/>
     <property name="set washing program" value="Execute it successfully"/>
+    <property name="set simuleted_consumption" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
@@ -146,6 +147,7 @@
     <property name="" value="spinning-rpm"/>
     <property name="" value="washing-cycle"/>
     <property name="" value="washing-program"/>
+    <property name="" value="simuleted_consumption"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

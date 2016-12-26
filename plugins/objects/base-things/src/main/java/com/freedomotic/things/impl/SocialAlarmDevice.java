@@ -85,7 +85,7 @@ public class SocialAlarmDevice extends ElectricDevice {
     
     private void setOn() {
         LOG.info("Setting behavior ''powered'' of object ''{}'' to true", getPojo().getName());
-
+        
         //if not already on
         if (callAlarmSystem.getValue() != true) {
             //setting the object as powered

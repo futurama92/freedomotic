@@ -22,23 +22,13 @@
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
-      <name>maximumPressure</name>
+      <name>pressure</name>
       <description></description>
       <active>true</active>
       <priority>-1</priority>
-      <value>60</value>
-      <max>150</max>
-      <min>60</min>
-      <step>1</step>
-    </com.freedomotic.model.object.RangedIntBehavior>
-    <com.freedomotic.model.object.RangedIntBehavior>
-      <name>minimumPressure</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>40</value>
+      <value>98</value>
       <max>120</max>
-      <min>40</min>
+      <min>75</min>
       <step>1</step>
     </com.freedomotic.model.object.RangedIntBehavior>
   </behaviors>
@@ -63,12 +53,14 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
+    <property name="don't take pill" value="Execute it successfully"/>
+    <property name="take pill" value="Execute it successfully"/>
+    <property name="set pressure" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="maximumPressure"/>
-    <property name="" value="minimumPressure"/>
     <property name="" value="takeThePills_s"/>
+    <property name="" value="pressure"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

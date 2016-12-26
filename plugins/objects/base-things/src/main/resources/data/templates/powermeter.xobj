@@ -135,6 +135,8 @@
     <property name="" value="voltage"/>
     <property name="" value="power"/>
     <property name="" value="energy"/>
+    <property name="" value="simuleted_consumption"/>
+    <property name="" value="simuleted_consumption_2"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

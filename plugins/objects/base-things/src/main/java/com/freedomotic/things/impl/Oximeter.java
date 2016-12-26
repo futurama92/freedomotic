@@ -46,7 +46,7 @@ public class Oximeter extends ElectricDevice{
             
             @Override
             public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
-                executeBmp(rangeValue, params);
+                executeOxi(rangeValue, params);
             }
         });
         //register this behavior to the superclass to make it visible to it
@@ -71,7 +71,7 @@ public class Oximeter extends ElectricDevice{
     }
     
     protected void setOff(Config params) {
-        boolean executed = executeCommand("turn off", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("don't take pill", params); //executes the developer level command associated with 'set brightness' action
 
         if (executed) {
             takeOxi.setValue(false);
@@ -80,7 +80,7 @@ public class Oximeter extends ElectricDevice{
     }
 
     protected void setOn(Config params) {
-        boolean executed = executeCommand("turn onn", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("take pill", params); //executes the developer level command associated with 'set brightness' action
         if (executed) {
             takeOxi.setValue(true);
             setChanged(true);
@@ -103,7 +103,7 @@ public class Oximeter extends ElectricDevice{
         super.executePowerOn(params);
     }
     
-    public void executeBmp(int rangeValue, Config params) {
+    public void executeOxi(int rangeValue, Config params) {
         boolean executed = executeCommand("set oximeter", params); 
         if (executed) {
             powered.setValue(true);

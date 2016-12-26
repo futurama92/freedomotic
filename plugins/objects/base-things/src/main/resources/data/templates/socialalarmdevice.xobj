@@ -60,6 +60,8 @@
     <property name="call" value="Execute it successfully"/>
   </actions>
   <triggers>
+    <property name="" value="powered"/>
+    <property name="" value="callAlarmSystem"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

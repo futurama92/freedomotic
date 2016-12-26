@@ -18,27 +18,27 @@ import com.freedomotic.reactions.Trigger;
  */
 public class HeartSensor extends ElectricDevice{
     
-    private RangedIntBehaviorLogic bmpHeart;
-    private int bmpHeartValue = 50;
-    protected final static String BEHAVIOR_BMP_HEART = "bmpHeart";
+    private RangedIntBehaviorLogic bmpheart;
+    private int bmpheartValue = 50;
+    protected final static String BEHAVIOR_BMP_HEART = "bmpheart";
 
     
     @Override
     public void init(){
                 //linking this property with the behavior defined in the XML
-        bmpHeart = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_BMP_HEART));
-        bmpHeart.setValue(bmpHeartValue);
-        bmpHeart.addListener(new RangedIntBehaviorLogic.Listener() {
+        bmpheart = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_BMP_HEART));
+        bmpheart.setValue(bmpheartValue);
+        bmpheart.addListener(new RangedIntBehaviorLogic.Listener() {
             
             @Override
             public void onLowerBoundValue(Config params, boolean fireCommand) {
-                bmpHeartValue = bmpHeart.getMin();
+                bmpheartValue = bmpheart.getMin();
                 executePowerOff(params);
             }
             
             @Override
             public void onUpperBoundValue(Config params, boolean fireCommand) {
-                bmpHeartValue = bmpHeart.getMax();
+                bmpheartValue = bmpheart.getMax();
                 executePowerOn(params);
             }
             
@@ -47,7 +47,7 @@ public class HeartSensor extends ElectricDevice{
                 executeBmp(rangeValue, params);
             }
         });
-        registerBehavior(bmpHeart);
+        registerBehavior(bmpheart);
         
 
         super.init();
@@ -55,26 +55,26 @@ public class HeartSensor extends ElectricDevice{
     
     @Override
     public void executePowerOff(Config params) {
-        bmpHeart.setValue(bmpHeart.getMin());
+        bmpheart.setValue(bmpheart.getMin());
         super.executePowerOff(params);
     }
     
     @Override
     public void executePowerOn(Config params) {
-        if (bmpHeartValue > bmpHeart.getMin()) {
-            bmpHeart.setValue(bmpHeartValue);
+        if (bmpheartValue > bmpheart.getMin()) {
+            bmpheart.setValue(bmpheartValue);
         } else {
-            bmpHeart.setValue(bmpHeart.getMax());
+            bmpheart.setValue(bmpheart.getMax());
         }
         super.executePowerOn(params);
     }
     
     public void executeBmp(int rangeValue, Config params) {
-        boolean executed = executeCommand("set bmpHeart", params); 
+        boolean executed = executeCommand("set bmpheart", params); 
         if (executed) {
             powered.setValue(true);
-            bmpHeart.setValue(rangeValue);
-            bmpHeartValue = bmpHeart.getValue();
+            bmpheart.setValue(rangeValue);
+            bmpheartValue = bmpheart.getValue();
             setChanged(true);
         }
     }

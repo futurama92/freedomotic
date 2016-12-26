@@ -53,6 +53,8 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
+    <property name="don't take pill" value="Execute it successfully"/>
+    <property name="take pill" value="Execute it successfully"/>
     <property name="set oximeter" value="Execute it successfully"/>
   </actions>
   <triggers>

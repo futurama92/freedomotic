@@ -30,47 +30,73 @@ import com.freedomotic.things.EnvObjectLogic;
  *
  * @author Enrico Nicoletti
  */
-public class Desk extends EnvObjectLogic {
+public class Desk extends ElectricDevice {
     
     private RangedIntBehaviorLogic height;
-    private int heightStoredValue = 0;
+    private int heightValue = 0;
     protected final static String BEHAVIOR_HEIGHT = "height";
     
     @Override
-    public void init() {
-        //linking this property with the behavior defined in the XML
-//linking this property with the behavior defined in the XML
+    public void init(){
         
-        height = new RangedIntBehaviorLogic((RangedIntBehavior) getPojo().getBehavior(BEHAVIOR_HEIGHT));
-        height.setValue(heightStoredValue);
+        height = new RangedIntBehaviorLogic((RangedIntBehavior)getPojo().getBehavior(BEHAVIOR_HEIGHT));
+        height.setValue(heightValue);
         height.addListener(new RangedIntBehaviorLogic.Listener() {
-
             @Override
             public void onLowerBoundValue(Config params, boolean fireCommand) {
+               heightValue = height.getMin();
+               executePowerOff(params);
             }
 
             @Override
             public void onUpperBoundValue(Config params, boolean fireCommand) {
+               heightValue = height.getMax();
+               executePowerOn(params);
             }
 
             @Override
             public void onRangeValue(int rangeValue, Config params, boolean fireCommand) {
-                    executeSetHeight(rangeValue, params);
+                executeShield(rangeValue, params);
             }
         });
         
-        //register new behaviors to the superclass to make it visible to it
         registerBehavior(height);
         super.init();
+        
     }
     
-    public void executeSetHeight(int rangeValue, Config params) {
-        boolean executed = executeCommand("set height", params);
+
+    @Override
+    public void executePowerOff(Config params){
+        
+        height.setValue(height.getMin());
+        super.executePowerOff(params);
+        
+    }
+    
+    @Override
+    public void executePowerOn(Config params){
+        
+        if (heightValue > height.getMin())
+            height.setValue(heightValue);
+        else
+            height.setValue(height.getMax());
+        
+        super.executePowerOn(params);
+        
+    }
+    
+    public void executeShield(int rangeValue, Config params){
+        
+        boolean executed = executeCommand("set height", params); //executes the developer level command associated with 'set brightness' action
+
         if (executed) {
+            powered.setValue(true);
             height.setValue(rangeValue);
-            heightStoredValue = height.getValue();
+            heightValue = height.getValue();
             setChanged(true);
         }
+
     }
 
     

@@ -126,8 +126,26 @@
     </view>
   </representation>
   <actions>
+    <property name="turn off" value="Execute it successfully"/>
+    <property name="turn on" value="Execute it successfully"/>
+    <property name="mute off" value="Execute it successfully"/>
+    <property name="mute on" value="Execute it successfully"/>
+    <property name="set avselection" value="Execute it successfully"/>
+    <property name="set screenmode" value="Execute it successfully"/>
+    <property name="set input" value="Execute it successfully"/>
+    <property name="set volume down" value="Execute it successfully"/>
+    <property name="set volume up" value="Execute it successfully"/>
+    <property name="set volume" value="Execute it successfully"/>
+    <property name="set simuleted_consumption" value="Execute it successfully"/>
   </actions>
   <triggers>
+    <property name="" value="powered"/>
+    <property name="" value="volume"/>
+    <property name="" value="input"/>
+    <property name="" value="muted"/>
+    <property name="" value="avSelection"/>
+    <property name="" value="screenMode"/>
+    <property name="" value="simuleted_consumption"/>
   </triggers>
   <currentRepresentation>1</currentRepresentation>
 </com.freedomotic.model.object.EnvObject>
