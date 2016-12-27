@@ -51,8 +51,8 @@
     </view>
   </representation>
   <actions>
-    <property name="take pill" value="Execute it successfully"/>
-    <property name="don't take pill" value="Execute it successfully"/>
+    <property name="take pill for glicemia" value="Execute it successfully"/>
+    <property name="don't take pill for glicemia" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
     <property name="turn off" value="Execute it successfully"/>
     <property name="set glicemia" value="Execute it successfully"/>

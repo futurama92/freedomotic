@@ -75,7 +75,7 @@ public class Glucometer extends ElectricDevice {
     
     
     protected void setOff(Config params) {
-        boolean executed = executeCommand("take pill", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("take pill for glicemia", params); //executes the developer level command associated with 'set brightness' action
 
         if (executed) {
             takeThePills.setValue(false);
@@ -84,7 +84,7 @@ public class Glucometer extends ElectricDevice {
     }
 
     protected void setOn(Config params) {
-        boolean executed = executeCommand("don't take pill", params); //executes the developer level command associated with 'set brightness' action
+        boolean executed = executeCommand("don't take pill for glicemia", params); //executes the developer level command associated with 'set brightness' action
         if (executed) {
             takeThePills.setValue(true);
             setChanged(true);
@@ -136,7 +136,7 @@ public class Glucometer extends ElectricDevice {
         
         Command pillTrue = new Command();
         pillTrue.setName("Turn " + getPojo().getName() + " sensors on");
-        pillTrue.setDescription("Take the pill");
+        pillTrue.setDescription("Take the pill for glicemia");
         pillTrue.setReceiver("app.events.sensors.behavior.request.objects");
         pillTrue.setProperty("object", getPojo().getName());
         pillTrue.setProperty("behavior", BEHAVIOR_TAKETHEPILLS);
@@ -145,11 +145,11 @@ public class Glucometer extends ElectricDevice {
         
         Command pillFalse = new Command();
         pillFalse.setName("Turn " + getPojo().getName() + " sensors off");
-        pillFalse.setDescription("Don't Take the pill");
+        pillFalse.setDescription("Don't Take the pill for glicemia");
         pillFalse.setReceiver("app.events.sensors.behavior.request.objects");
         pillFalse.setProperty("object", getPojo().getName());
         pillFalse.setProperty("behavior", BEHAVIOR_TAKETHEPILLS);
-        pillFalse.setProperty("value", "true");
+        pillFalse.setProperty("value", "false");
         commandRepository.create(pillFalse);
     }
     
@@ -161,8 +161,8 @@ public class Glucometer extends ElectricDevice {
         anomaly_glicemia.setName("When " + this.getPojo().getName() + " value is anomalous");
         anomaly_glicemia.setChannel("app.event.sensor.object.behavior.change");
         anomaly_glicemia.getPayload().addStatement("object.name", this.getPojo().getName());
-        anomaly_glicemia.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_GLICEMIA, "GREATER_THAN", "100");
-        anomaly_glicemia.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_GLICEMIA, "LESS_THAN", "60");
+        anomaly_glicemia.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_GLICEMIA, "GREATER_THAN", "100");
+      //  anomaly_glicemia.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_GLICEMIA, "LESS_THAN", "60");
         anomaly_glicemia.setPersistence(false);
         triggerRepository.create(anomaly_glicemia);
         
@@ -170,8 +170,8 @@ public class Glucometer extends ElectricDevice {
         correct_glicemia.setName("When " + this.getPojo().getName() + " value is ok");
         correct_glicemia.setChannel("app.event.sensor.object.behavior.change");
         correct_glicemia.getPayload().addStatement("object.name", this.getPojo().getName());
-        correct_glicemia.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_GLICEMIA, "GREATER_THAN", "60");
-        correct_glicemia.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_GLICEMIA, "LESS_THAN", "100");
+        //correct_glicemia.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_GLICEMIA, "GREATER_THAN", "60");
+        correct_glicemia.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_GLICEMIA, "LESS_THAN", "100");
         correct_glicemia.setPersistence(false);
         triggerRepository.create(correct_glicemia);
         

@@ -132,7 +132,7 @@ public class Oximeter extends ElectricDevice{
         oxiFalse.setReceiver("app.events.sensors.behavior.request.objects");
         oxiFalse.setProperty("object", getPojo().getName());
         oxiFalse.setProperty("behavior", BEHAVIOR_TAKEOXI);
-        oxiFalse.setProperty("value", "true");
+        oxiFalse.setProperty("value", "false");
         commandRepository.create(oxiFalse);
         
         super.createCommands();
@@ -146,7 +146,7 @@ public class Oximeter extends ElectricDevice{
         ok_oxi.setName("When " + this.getPojo().getName() + " value is ok");
         ok_oxi.setChannel("app.event.sensor.object.behavior.change");
         ok_oxi.getPayload().addStatement("object.name", this.getPojo().getName());
-        ok_oxi.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_OXIMETER, "GREATER_THAN", "96");
+        ok_oxi.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OXIMETER, "GREATER_THAN", "96");
         ok_oxi.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OXIMETER, "LESS_THAN", "101");
         ok_oxi.setPersistence(false);
         triggerRepository.create(ok_oxi);
@@ -156,7 +156,7 @@ public class Oximeter extends ElectricDevice{
         anomaly_oxi.setChannel("app.event.sensor.object.behavior.change");
         anomaly_oxi.getPayload().addStatement("object.name", this.getPojo().getName());
         anomaly_oxi.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OXIMETER, "GREATER_THAN", "89");
-        anomaly_oxi.getPayload().addStatement("OR", "object.behavior." + BEHAVIOR_OXIMETER, "LESS_THAN", "96");
+        anomaly_oxi.getPayload().addStatement("AND", "object.behavior." + BEHAVIOR_OXIMETER, "LESS_THAN", "96");
         anomaly_oxi.setPersistence(false);
         triggerRepository.create(anomaly_oxi);
         

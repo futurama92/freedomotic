@@ -97,7 +97,7 @@ public class Bathtub extends ElectricDevice {
     }
     
     public void executeSetWaterLevel(int rangeValue, Config params) {
-        boolean executed = executeCommand("set waterLevel", params);
+        boolean executed = executeCommand("set water level", params);
         if (executed) {
             waterLevel.setValue(rangeValue);
             waterLevelValue = waterLevel.getValue();

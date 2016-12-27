@@ -14,13 +14,6 @@
       <priority>-1</priority>
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
-    <com.freedomotic.model.object.BooleanBehavior>
-      <name>callAlarmSystem</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>false</value>
-    </com.freedomotic.model.object.BooleanBehavior>
   </behaviors>
   <representation>
     <view>
@@ -57,11 +50,11 @@
     </view>
   </representation>
   <actions>
-    <property name="call" value="Execute it successfully"/>
+    <property name="turn on" value="Execute it successfully"/>
+    <property name="turn off" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="callAlarmSystem"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>

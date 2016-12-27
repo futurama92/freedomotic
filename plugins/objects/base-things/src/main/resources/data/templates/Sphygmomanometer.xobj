@@ -27,7 +27,7 @@
       <active>true</active>
       <priority>-1</priority>
       <value>98</value>
-      <max>120</max>
+      <max>150</max>
       <min>75</min>
       <step>1</step>
     </com.freedomotic.model.object.RangedIntBehavior>

@@ -56,7 +56,7 @@
     </view>
   </representation>
   <actions>
-    <property name="set waterLevel" value="Execute it successfully"/>
+    <property name="set water level" value="Execute it successfully"/>
     <property name="set conditions" value="Execute it successfully"/>
   </actions>
   <triggers>
