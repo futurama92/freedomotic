@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<reaction>
-  <trigger>When Glucometer value is anomalous</trigger>
-  <sequence>
-    <command>Turn Glucometer sensors on</command>
-  </sequence>
-</reaction>
