@@ -116,7 +116,7 @@ public class Fridge extends ElectricDevice {
     }
     
     public void executeSetPowerConsumption(int rangeValue, Config params) {
-        boolean executed = executeCommand("set waterLevel", params);
+        boolean executed = executeCommand("set simuleted consumption", params);
         if (executed) {
             simuleted_consumption.setValue(rangeValue);
             simuleted_consumptionValue = simuleted_consumption.getValue();

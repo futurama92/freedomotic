@@ -1,9 +1,9 @@
 <object>
-  <name>Fridge</name>
-  <description>A fridge</description>
+  <name>GasAlarm</name>
+  <description>Gas Detector</description>
   <actAs>virtual</actAs>
-  <type>EnvObject.ElectricDevice.Fridge</type>
-  <hierarchy>com.freedomotic.things.impl.Fridge</hierarchy>
+  <type>EnvObject.ElectricDevice.GasAlarm</type>
+  <hierarchy>com.freedomotic.things.impl.GasAlarm</hierarchy>
   <protocol>unknown</protocol>
   <phisicalAddress>unknown</phisicalAddress>
   <behaviors>
@@ -15,38 +15,7 @@
       <value>false</value>
     </com.freedomotic.model.object.BooleanBehavior>
     <com.freedomotic.model.object.RangedIntBehavior>
-      <name>fridge-temperature</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>0</value>
-      <max>5</max>
-      <min>2</min>
-      <step>1</step>
-    </com.freedomotic.model.object.RangedIntBehavior>
-    <com.freedomotic.model.object.RangedIntBehavior>
-      <name>freezer-temperature</name>
-      <description></description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>0</value>
-      <max>0</max>
-      <min>-10</min>
-      <step>1</step>
-    </com.freedomotic.model.object.RangedIntBehavior>
-    <com.freedomotic.model.object.RangedIntBehavior>
       <name>simuleted_consumption</name>
-      <description>Power consumed by device when it's on</description>
-      <active>true</active>
-      <priority>-1</priority>
-      <value>0</value>
-      <max>3000</max>
-      <min>0</min>
-      <scale>1</scale>
-      <step>10</step>
-    </com.freedomotic.model.object.RangedIntBehavior>
-    <com.freedomotic.model.object.RangedIntBehavior>
-      <name>power_consumption</name>
       <description>Power consumed by device when it's on</description>
       <active>true</active>
       <priority>-1</priority>
@@ -63,7 +32,7 @@
       <intersecable>false</intersecable>
       <offset x="0" y="0"/>
       <rotation>0.0</rotation>
-      <icon>fridge-off.png</icon>
+      <icon>co2.png</icon>
       <fillColor>#000000</fillColor>
       <textColor>#000000</textColor>
       <borderColor>#000000</borderColor>
@@ -79,7 +48,7 @@
       <intersecable>false</intersecable>
       <offset x="0" y="0"/>
       <rotation>0.0</rotation>
-      <icon>fridge-on.png</icon>
+      <icon>fire-extinguisher.png</icon>
       <fillColor>#000000</fillColor>
       <textColor>#000000</textColor>
       <borderColor>#000000</borderColor>
@@ -94,14 +63,9 @@
   <actions>
     <property name="turn off" value="Execute it successfully"/>
     <property name="turn on" value="Execute it successfully"/>
-    <property name="set fridge temperature" value="Execute it successfully"/>
-    <property name="set freezer temperature" value="Execute it successfully"/>
-    <property name="set simuleted consumption" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
-    <property name="" value="fridge-temperature"/>
-    <property name="" value="freezer-temperature"/>
     <property name="" value="simuleted_consumption"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>

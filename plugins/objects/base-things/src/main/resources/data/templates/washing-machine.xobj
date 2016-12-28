@@ -136,10 +136,11 @@
     <property name="start washing" value="Execute it successfully"/>
     <property name="pause washing" value="Execute it successfully"/>
     <property name="set washing temperature" value="Execute it successfully"/>
-    <property name="set spinning RPM" value="Execute it successfully"/>
+    <property name="set spinning rpm" value="Execute it successfully"/>
     <property name="set washing cycle" value="Execute it successfully"/>
     <property name="set washing program" value="Execute it successfully"/>
     <property name="set simuleted_consumption" value="Execute it successfully"/>
+    <property name="change all" value="Execute it successfully"/>
   </actions>
   <triggers>
     <property name="" value="powered"/>
@@ -148,6 +149,7 @@
     <property name="" value="washing-cycle"/>
     <property name="" value="washing-program"/>
     <property name="" value="simuleted_consumption"/>
+    <property name="" value="change_all"/>
   </triggers>
   <currentRepresentation>0</currentRepresentation>
 </object>
