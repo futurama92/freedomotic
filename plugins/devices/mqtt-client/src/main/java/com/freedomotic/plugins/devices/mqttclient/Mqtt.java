@@ -149,7 +149,7 @@ public class Mqtt implements MqttCallback {
         List<String> value_s = new ArrayList();
         LOG.info("Received message '{}' on topic '{}'", payload, topic);
         
-        if (payload.matches("([a-zA-z]+[:][0-9]+[;])+")){
+        if (payload.matches("([a-zA-z]+[:][0-9]+[;])+") || payload.matches("([a-zA-z]+([_]*[-]*[a-z]*)*[:][0-9]+[;])+")){
             split.workAsInteger();
             value = split.getValueInteger();
             behavior = split.getBehaviorInteger();
