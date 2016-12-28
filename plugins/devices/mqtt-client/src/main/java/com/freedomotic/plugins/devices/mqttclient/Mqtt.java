@@ -30,6 +30,9 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.freedomotic.events.ProtocolRead;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * @author Mauro Cicolella
@@ -137,16 +140,49 @@ public class Mqtt implements MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         String protocol = "mqtt-client";
+        String[] prova = new String[2];
         String address = topic;
         String payload = new String(message.getPayload());
-        
+        SplitPayload split = new SplitPayload(payload);
+        List<Integer> value = new ArrayList();
+        List<String> behavior = new ArrayList();
+        List<String> value_s = new ArrayList();
         LOG.info("Received message '{}' on topic '{}'", payload, topic);
-        // create and notify a Freedomotic event 
-        // the object address is equal to "topic"
-        ProtocolRead event = new ProtocolRead(this, protocol, topic);
-        event.addProperty("mqtt.message", payload);
-        //publish the event on the messaging bus
-        pluginRef.notifyEvent(event);
+        
+        if (payload.matches("([a-zA-z]+[:][0-9]+[;])+")){
+            split.workAsInteger();
+            value = split.getValueInteger();
+            behavior = split.getBehaviorInteger();
+            int size = split.getSizerecord();
+
+            for(int i = 0; i < size; i++){
+                ProtocolRead event = new ProtocolRead(this, protocol, topic);
+                event.getPayload().addStatement("behavior.name", behavior.get(i));
+                event.getPayload().addStatement("behaviorValue", value.get(i));
+                pluginRef.notifyEvent(event);
+            }   
+        }
+        
+        else if (payload.matches("([a-zA-z]+[:][a-zA-Z]+[;])+")){
+            split.workAsString();
+            value_s = split.getValueString();
+            behavior = split.getBehaviorString();
+            int size = split.getSizerecord();
+
+            for(int i = 0; i < size; i++){
+                ProtocolRead event = new ProtocolRead(this, protocol, topic);
+                event.getPayload().addStatement("behavior.name", behavior.get(i));
+                event.getPayload().addStatement("behaviorValue", value_s.get(i));
+                pluginRef.notifyEvent(event);
+            }   
+        }
+
+        else {
+            ProtocolRead event_general = new ProtocolRead(this, protocol, topic);
+            event_general.addProperty("mqtt.message", payload);
+            //publish the event on the messaging bus
+            pluginRef.notifyEvent(event_general);
+        } 
     }
 
     /**

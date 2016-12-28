@@ -67,7 +67,7 @@ public class MqttClient4FD extends Protocol {
 
     @Override
     protected void onRun() {
-        LOG.info("Check subscribed topic");
+        //LOG.info("Check subscribed topic");
         for(EnvObjectLogic obj : getApi().things().findAll()){
             if (!subscribed_list.contains(obj.getPojo().getName())){
                     subscribed_list.add(obj.getPojo().getName());
@@ -83,9 +83,11 @@ public class MqttClient4FD extends Protocol {
         if (connected) {
             setDescription("Connected to " + BROKER_URL);
             // subscribe all topics in <tuples></tuples> section
+            /*
             for (int i = 0; i < configuration.getTuples().size(); i++) {
                 mqttClient.subscribeTopic(configuration.getTuples().getProperty(i, "topic-name"));
             }
+                */
             for(EnvObjectLogic obj : getApi().things().findAll()){
                 mqttClient.subscribeTopic(obj.getPojo().getName());
                  subscribed_list.add(obj.getPojo().getName());
