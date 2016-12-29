@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<reaction>
-  <trigger>When someone goes in the Bathroom 1</trigger>
-  <sequence>
-    <command>Turn on bath_room_1_light</command>
-  </sequence>
-</reaction>

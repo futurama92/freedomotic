@@ -25,10 +25,14 @@ import com.freedomotic.environment.EnvironmentLogic;
 import com.freedomotic.events.ProtocolRead;
 import com.freedomotic.exceptions.PluginStartupException;
 import com.freedomotic.exceptions.UnableToExecuteException;
+import com.freedomotic.model.geometry.FreedomPoint;
 import com.freedomotic.model.object.EnvObject;
+import com.freedomotic.model.object.Representation;
 import com.freedomotic.plugins.TrackingReadFile;
+import com.freedomotic.plugins.fromfile.WorkerThread;
 import com.freedomotic.reactions.Command;
 import com.freedomotic.things.EnvObjectLogic;
+import com.freedomotic.things.GenericPerson;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -36,6 +40,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,27 +49,78 @@ import org.slf4j.LoggerFactory;
  * @author Mauro Cicolella
  */
 public class Movement extends Protocol {
-
+    List<GenericPerson> person = new ArrayList();
     private static final Logger LOG = LoggerFactory.getLogger(Movement.class.getName());
     private static final String path = "C:\\Users\\ricca\\Documents\\NetBeansProjects\\freedomotic\\framework\\freedomotic-core\\plugins\\devices\\simulation\\data\\motes\\";
     private Boolean powered = true;
     TrackingReadFile mov;
-
+    String UUID_sick;
+    String UUID_nurse;
+    boolean sick_condition = false;
+    int sick_x;
+    int sick_y;
+    FreedomPoint coordinate;
+    List<Representation> rep = new ArrayList<Representation>();
+    GenericPerson sick;
+    GenericPerson nurse;
     /**
      *
      */
     public Movement() {
         super("Movement", "/movement/movement-manifest.xml");
-        setPollingWait(2000);
+        setPollingWait(5000);
     }
     
     @Override
     protected void onRun() {
-        //do nothing
+        for (int i = 0; i < person.size(); i++) {
+            if(person.get(i).getBehavior("activity").getValueAsString().equals("Sick")) {
+                sick = person.get(i);
+                UUID_sick = person.get(i).getPojo().getUUID();
+                sick_condition = true;
+                rep = person.get(i).getPojo().getRepresentations();
+                coordinate = rep.get(0).getOffset();
+                sick_x = coordinate.getX();
+                sick_y = coordinate.getY();
+                LOG.info("X: " + sick_x + " Y: " + sick_y);
+            }
+            if ((sick_condition == true) && !(person.get(i).getPojo().getUUID().equals(UUID_sick))) {
+                nurse = person.get(i);
+                LOG.info("Qualcun altro non malato ed e': " + person.get(i).getPojo().getName());
+                person.get(i).getPojo().setCurrentRepresentation(2);
+                person.get(i).synchLocation(sick_x + 50, sick_y);
+                UUID_nurse = person.get(i).getPojo().getUUID();
+                try {
+                     Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Movement.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                sick_condition = false;
+                if(sick_condition == false){
+                    nurse.getPojo().setCurrentRepresentation(0);
+                    sick.getPojo().setCurrentRepresentation(0);
+                    Command c = new Command();
+                    c.setName("Change activity behavior");
+                    c.setReceiver("app.events.sensors.behavior.request.objects");
+                    c.setProperty("object", sick.getPojo().getName());
+                    c.setProperty("behavior", "activity");
+                    c.setProperty("value", "Standing");
+                    this.notifyCommand(c);
+                }
+            }
+            
+        }
     }
 
     @Override
     protected void onStart()   {
+        for (EnvObjectLogic obj : getApi().things().findAll()) {
+            if (obj instanceof GenericPerson){
+                GenericPerson temp = (GenericPerson)obj;
+                person.add(temp);
+                LOG.info("Create list of person");
+            }
+        }/*
         deleteFile(path);
         LOG.info(Movement.class.getName() + " START");
         provaRiccardo();
@@ -75,7 +131,7 @@ public class Movement extends Protocol {
         catch(PluginStartupException e){
             LOG.info("errore");
         }
- 
+ */
     }
     
     @Override
@@ -83,6 +139,7 @@ public class Movement extends Protocol {
         LOG.info(Movement.class.getName() + " STOP");
         mov.stop();
         mov.destroy();
+        
         deleteFile(path);
     }
 
