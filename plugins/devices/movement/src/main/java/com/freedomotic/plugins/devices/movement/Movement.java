@@ -74,7 +74,7 @@ public class Movement extends Protocol {
     @Override
     protected void onRun() {
         for (int i = 0; i < person.size(); i++) {
-            if(person.get(i).getBehavior("activity").getValueAsString().equals("Sick")) {
+            if(person.get(i).getBehavior("activity").getValueAsString().equals("Sick") || person.get(i).getBehavior("activity").getValueAsString().equals("Dead")) {
                 sick = person.get(i);
                 UUID_sick = person.get(i).getPojo().getUUID();
                 sick_condition = true;
