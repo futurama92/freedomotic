@@ -114,6 +114,8 @@ public class Person_office extends GenericPerson {
                 getPojo().setCurrentRepresentation(1);
         else if (activity.getSelected().equals("Nurse"))
                 getPojo().setCurrentRepresentation(2);
+        else if (activity.getSelected().equals("Dead"))
+                getPojo().setCurrentRepresentation(3);
         else
             getPojo().setCurrentRepresentation(0);
     }

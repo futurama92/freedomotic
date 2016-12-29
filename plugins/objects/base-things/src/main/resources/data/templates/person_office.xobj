@@ -27,6 +27,7 @@
         <string>Moving</string>
         <string>Sick</string>
         <string>Nurse</string>
+        <string>Dead</string>
       </list> 
       <selected>2</selected>
     </com.freedomotic.model.object.ListBehavior>
@@ -81,6 +82,22 @@
       <offset x="0" y="0"/>
       <rotation>0.0</rotation>
       <icon>nurse.png</icon>
+      <fillColor>#000000</fillColor>
+      <textColor>#000000</textColor>
+      <borderColor>#000000</borderColor>
+      <shape class="polygon">
+        <point x="0" y="0"/>
+        <point x="64" y="0"/>
+        <point x="64" y="64"/>
+        <point x="0" y="64"/>
+      </shape>
+    </view>
+    <view>
+      <tangible>true</tangible>
+      <intersecable>false</intersecable>
+      <offset x="0" y="0"/>
+      <rotation>0.0</rotation>
+      <icon>dead.png</icon>
       <fillColor>#000000</fillColor>
       <textColor>#000000</textColor>
       <borderColor>#000000</borderColor>
