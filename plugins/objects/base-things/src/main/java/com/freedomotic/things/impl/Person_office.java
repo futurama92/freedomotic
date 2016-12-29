@@ -112,6 +112,8 @@ public class Person_office extends GenericPerson {
         LOG.info("I'm on setIcon and the behavior is set to: " + activity.getSelected());
         if (activity.getSelected().equals("Sick"))
                 getPojo().setCurrentRepresentation(1);
+        else if (activity.getSelected().equals("Nurse"))
+                getPojo().setCurrentRepresentation(2);
         else
             getPojo().setCurrentRepresentation(0);
     }
