@@ -53,7 +53,6 @@ public class Movement extends Protocol {
     private static final Logger LOG = LoggerFactory.getLogger(Movement.class.getName());
     private static final String path = "C:\\Users\\ricca\\Documents\\NetBeansProjects\\freedomotic\\framework\\freedomotic-core\\plugins\\devices\\simulation\\data\\motes\\";
     private Boolean powered = true;
-    TrackingReadFile mov;
     String UUID_sick;
     String UUID_nurse;
     boolean sick_condition = false;
@@ -120,27 +119,12 @@ public class Movement extends Protocol {
                 person.add(temp);
                 LOG.info("Create list of person");
             }
-        }/*
-        deleteFile(path);
-        LOG.info(Movement.class.getName() + " START");
-        provaRiccardo();
-        mov = new TrackingReadFile();
-        try{
-            mov.start();
-        mov.onStart();}
-        catch(PluginStartupException e){
-            LOG.info("errore");
         }
- */
     }
     
     @Override
     protected void onStop(){
         LOG.info(Movement.class.getName() + " STOP");
-        mov.stop();
-        mov.destroy();
-        
-        deleteFile(path);
     }
 
     @Override
