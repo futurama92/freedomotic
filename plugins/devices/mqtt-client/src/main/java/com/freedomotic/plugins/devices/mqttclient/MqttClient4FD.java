@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.freedomotic.api.EventTemplate;
 import com.freedomotic.api.Protocol;
+import com.freedomotic.behaviors.BehaviorLogic;
 import com.freedomotic.exceptions.PluginStartupException;
 import com.freedomotic.exceptions.UnableToExecuteException;
 import com.freedomotic.reactions.Command;
@@ -53,7 +54,7 @@ public class MqttClient4FD extends Protocol {
     public MqttClient4FD() {
         //every plugin needs a name and a manifest XML file
         super("MQTT Client", "/mqtt-client/mqtt-client-manifest.xml");
-        setPollingWait(2000); //onRun() disabled
+        setPollingWait(5000); //onRun() disabled
     }
 
     @Override
@@ -68,31 +69,46 @@ public class MqttClient4FD extends Protocol {
     @Override
     protected void onRun() {
         //LOG.info("Check subscribed topic");
+        
         for(EnvObjectLogic obj : getApi().things().findAll()){
             if (!subscribed_list.contains(obj.getPojo().getName())){
                     subscribed_list.add(obj.getPojo().getName());
-                    mqttClient.subscribeTopic(obj.getPojo().getName());
+                    mqttClient.subscribeTopic(obj.getPojo().getPhisicalAddress());
+            }
+        }
+        
+        notifyPayload();
+    }
+    
+    protected void notifyPayload(){
+        for(EnvObjectLogic obj : getApi().things().findAll()){
+            if (obj.getPojo().getProtocol().equals("mqtt-client")) {
+                for(BehaviorLogic beha : obj.getBehaviors()){
+                    mqttClient.publish(obj.getPojo().getPhisicalAddress(),beha.getName() + ": " + beha.getValueAsString(), 0, 0);
+                    //LOG.info("/freedomotic/"+obj.getPojo().getName()+ " " +beha.getName() + ": " + beha.getValueAsString());
+                }  
             }
         }
     }
 
     @Override
     protected void onStart() throws PluginStartupException {
+        String topic = "freedomotic/";
         mqttClient = new Mqtt(this);
         connected = mqttClient.startClient(BROKER_URL, CLIENT_ID, SET_CLEAN_SESSION, SET_KEEP_ALIVE_INTERVAL, AUTHENTICATION_ENABLED, USERNAME, PASSWORD);
         if (connected) {
             setDescription("Connected to " + BROKER_URL);
-            // subscribe all topics in <tuples></tuples> section
-            /*
-            for (int i = 0; i < configuration.getTuples().size(); i++) {
-                mqttClient.subscribeTopic(configuration.getTuples().getProperty(i, "topic-name"));
-            }
-                */
             for(EnvObjectLogic obj : getApi().things().findAll()){
-                mqttClient.subscribeTopic(obj.getPojo().getName());
-                 subscribed_list.add(obj.getPojo().getName());
-                
+                topic = topic + obj.getPojo().getName();
+                subscribed_list.add(obj.getPojo().getName());
+                if (!obj.getPojo().getProtocol().equals("mqtt-client")){
+                    obj.getPojo().setProtocol("mqtt-client"); 
+                }  
+                obj.getPojo().setPhisicalAddress(topic);
+                mqttClient.subscribeTopic(topic);
+                topic = "freedomotic/";
             }
+            
         } else {
             throw new PluginStartupException("Not connected. Please check");
         }

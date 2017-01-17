@@ -140,6 +140,7 @@ public class Mqtt implements MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         String protocol = "mqtt-client";
+        //LOG.info("Received message '{}' on topic '{}'", message.getPayload().toString(), topic);
         String[] prova = new String[2];
         String address = topic;
         String payload = new String(message.getPayload());
@@ -191,7 +192,7 @@ public class Mqtt implements MqttCallback {
      */
     @Override
     public void deliveryComplete(IMqttDeliveryToken imdt) {
-        LOG.info("Message published");
+        //LOG.info("Message published");
     }
 
     /**
